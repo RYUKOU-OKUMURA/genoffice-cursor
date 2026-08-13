@@ -47,4 +47,3 @@ These instructions apply to the entire repository.
   the relevant workspace tests before committing.
 - Changes to OOXML open/save behavior require round-trip coverage that proves
   untouched content is preserved.
-

@@ -89,4 +89,3 @@ GenOffice tool interface.
 - Require confirmation for external network writes, destructive file actions,
   or operations outside the active document.
 - Store credentials outside Git and redact them from logs.
-
