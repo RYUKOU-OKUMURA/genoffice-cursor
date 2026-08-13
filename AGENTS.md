@@ -10,22 +10,24 @@ These instructions apply to the entire repository.
   creation and editing of presentations, spreadsheets, and documents.
 - The first MVP is Slides only. Do not expand the Cursor integration into
   Sheets or Docs until the Slides acceptance criteria in
-  `docs/CURSOR_INTEGRATION.md` pass.
+  `docs/cursor/SLIDES_MVP_REQUIREMENTS.md` pass.
 - Keep GenOffice's existing OOXML editors and engines authoritative. The
   Cursor agent should call narrow editor tools; it is not a replacement for
   the PPTX, XLSX, or DOCX engines.
-- See `docs/CURSOR_INTEGRATION.md` before changing the agent architecture.
+- Start with `docs/cursor/README.md` before changing the agent architecture.
 
 ## Git workflow
 
 - `upstream` is the read-only official `genspark-ai/genoffice` repository.
-- `origin` is the personal `RYUKOU-OKUMURA/genoffice-remake` fork.
+- `origin` is the personal `RYUKOU-OKUMURA/genoffice-cursor` fork.
 - Keep `main` as a clean fast-forward mirror of `upstream/main`. Never put
   custom commits on `main`.
 - Keep personal product work on `cursor`; create `feature/*` branches from
   `cursor` for non-trivial changes.
 - Merge new `main` snapshots into `cursor`. Do not rewrite published branch
   history to resolve upstream conflicts.
+- Keep the installed pre-push guard synchronized with
+  `tools/git-hooks/pre-push-fork-safety` on every development checkout.
 - Make small, focused commits with imperative English subjects.
 
 ## Installed app safety

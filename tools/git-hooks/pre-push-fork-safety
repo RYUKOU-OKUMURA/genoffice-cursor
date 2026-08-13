@@ -1,0 +1,15 @@
+#!/bin/sh
+
+remote_name="$1"
+remote_url="$2"
+normalized=$(printf '%s' "$remote_name:$remote_url" | tr '[:upper:]' '[:lower:]')
+
+case "$normalized" in
+  upstream:*|*github.com*genspark-ai/genoffice*)
+    echo "Blocked: the official GenOffice upstream is fetch-only." >&2
+    echo "Push to the personal origin remote instead." >&2
+    exit 1
+    ;;
+esac
+
+exit 0
