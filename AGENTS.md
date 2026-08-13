@@ -8,6 +8,9 @@ These instructions apply to the entire repository.
   update-feed work unless explicitly requested.
 - Add Cursor Agent SDK as an optional agent backend for natural-language
   creation and editing of presentations, spreadsheets, and documents.
+- The first MVP is Slides only. Do not expand the Cursor integration into
+  Sheets or Docs until the Slides acceptance criteria in
+  `docs/CURSOR_INTEGRATION.md` pass.
 - Keep GenOffice's existing OOXML editors and engines authoritative. The
   Cursor agent should call narrow editor tools; it is not a replacement for
   the PPTX, XLSX, or DOCX engines.

@@ -15,6 +15,28 @@ through small typed tools hosted in the Electron main process.
 This commit establishes the development workspace only. Cursor SDK execution
 and editor tools have not been implemented yet.
 
+## First MVP: Slides only
+
+The first user-visible milestone is limited to Slides. Cursor integration for
+Sheets and Docs is deferred until this vertical slice passes end to end.
+
+The MVP is complete when a user can:
+
+1. Authenticate the isolated Cursor SDK worker without storing credentials in
+   Git or exposing them to a renderer.
+2. Read the active deck through a typed, read-only tool.
+3. Start from a blank deck and create a slide containing text and a simple
+   diagram through allowlisted tools.
+4. Apply at least one edit through the normal Slides command pipeline and undo
+   it through the existing undo system.
+5. Save the result as PPTX, reopen it, and confirm the expected content and
+   visual layout survived the round trip.
+6. Run one explicitly trusted, compatible slide-generation skill with only the
+   GenOffice tools granted to that skill.
+
+The MVP does not include Sheets, Docs, public distribution, automatic updates,
+or unrestricted shell and filesystem access for the agent.
+
 ## Repository layout and branches
 
 - Working copy: `/Users/ryukouokumura/Desktop/boss-workspace/genoffice-remake`
