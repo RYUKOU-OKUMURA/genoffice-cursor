@@ -1,8 +1,8 @@
-# Cursor integration documentation moved
+# Cursor 統合ドキュメントは移動しました
 
-The maintained documentation now starts at
-[`docs/cursor/README.md`](cursor/README.md). It separates product requirements,
-architecture, implementation tasks, tests, and upstream reference material.
+保守しているドキュメントは、いま
+[`docs/cursor/README.md`](cursor/README.md) から始まります。製品要件、
+アーキテクチャ、実装タスク、テスト、Upstream 参照資料を分けています。
 
-This file remains only as a stable redirect for older links. Do not add new
-requirements or implementation notes here.
+このファイルは、古いリンク向けの安定したリダイレクトとして残しています。
+新しい要件や実装メモをここに追加しないでください。

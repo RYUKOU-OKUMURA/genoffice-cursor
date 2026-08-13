@@ -1,117 +1,120 @@
-# GenOffice Cursor Repository Instructions
+# GenOffice Cursor リポジトリ手順
 
-These fork-owned instructions apply to the entire repository. Upstream does
-not currently provide an `AGENTS.md`; do not replace this file with upstream
-product documentation during a sync.
+このフォーク固有の手順はリポジトリ全体に適用する。Upstream は現時点で
+`AGENTS.md` を提供していない。同期時にこのファイルを Upstream の製品
+ドキュメントで置き換えないこと。
 
-## Start with the source of truth
+## まず情報源（source of truth）から始める
 
-- Read `docs/cursor/README.md` before planning Cursor integration work, then
-  follow its authority order and `REFERENCE_CATALOG.md` routing.
-- Treat `docs/cursor/SLIDES_MVP_REQUIREMENTS.md` as the user-visible contract,
-  `ARCHITECTURE.md` as the target boundary, `IMPLEMENTATION_PLAN.md` as the
-  dependency order, and `TEST_PLAN.md` as the evidence contract.
-- Target documents describe intended behavior that may not exist yet. Inspect
-  current code and tests before claiming a feature is implemented.
-- Apply the closest nested `AGENTS.md` for specialized work. A session started
-  at the repository root must explicitly read:
-  - `apps/slides/AGENTS.md` before changing Slides or the Cursor agent path.
-  - `docs/cursor/AGENTS.md` before changing `docs/cursor/**` or `docs/adr/**`.
-- Follow `CONTRIBUTING.md` for upstream repository conventions and `CLAUDE.md`
-  for UI theming and Electron build gotchas.
+- Cursor 統合の作業を計画する前に `docs/cursor/README.md` を読み、その権威の
+  順序と `REFERENCE_CATALOG.md` の案内に従う。
+- `docs/cursor/SLIDES_MVP_REQUIREMENTS.md` をユーザー向け契約、
+  `ARCHITECTURE.md` を目標境界、`IMPLEMENTATION_PLAN.md` を依存順序、
+  `TEST_PLAN.md` を証跡契約として扱う。
+- 目標ドキュメントは、まだ存在しない意図された振る舞いを記述する。機能が
+  実装済みだと主張する前に、現行のコードとテストを確認する。
+- 専門作業には、最も近い入れ子の `AGENTS.md` を適用する。リポジトリルートで
+  開始したセッションは、次を明示的に読むこと:
+  - Slides または Cursor エージェント経路を変更する前に
+    `apps/slides/AGENTS.md`。
+  - `docs/cursor/**` または `docs/adr/**` を変更する前に
+    `docs/cursor/AGENTS.md`。
+- Upstream リポジトリの慣習は `CONTRIBUTING.md`、UI テーマと Electron
+  ビルドの注意点は `CLAUDE.md` に従う。
 
-## Product scope
+## 製品スコープ
 
-- This is a private, personal-use fork for the owner's Macs. Do not add public
-  distribution, public branding, or an update service unless explicitly
-  requested.
-- The current MVP is Slides only. Do not implement Cursor tools for Sheets,
-  Docs, PDF, or Markdown until every Slides acceptance scenario passes.
-- The primary path must work with a Cursor account while Genspark is logged
-  out and GSK credentials are absent. Existing upstream Genspark behavior may
-  remain as an optional compatibility path but is not an MVP dependency.
-- GenOffice remains authoritative for document state, rendering, undo/redo,
-  and OOXML import/export. Agents call narrow commands; they never write PPTX,
-  XLSX, or DOCX archives directly.
-- Prefer native, editable Office content. The initial Slides diagram is an
-  editable shape group, not a bitmap and not semantic PowerPoint SmartArt.
+- これは所有者の Mac 向けの非公開・個人利用フォークである。明示的に依頼され
+  ない限り、公開配布、公開ブランディング、更新サービスを追加しない。
+- 現在の MVP は Slides のみである。すべての Slides 受け入れシナリオが通る
+  まで、Sheets、Docs、PDF、Markdown 向けの Cursor ツールを実装しない。
+- 主経路は、Genspark がログアウト済みで GSK 資格情報が無い状態でも、Cursor
+  アカウントで動作しなければならない。既存の Upstream Genspark 振る舞いは
+  任意の互換経路として残してよいが、MVP の依存ではない。
+- 文書状態、描画、undo/redo、OOXML の import/export の権威は GenOffice の
+  ままである。エージェントは狭いコマンドを呼ぶ。PPTX、XLSX、DOCX
+  アーカイブを直接書き込んではならない。
+- ネイティブで編集可能な Office コンテンツを優先する。初期の Slides 図は、
+  ビットマップでも意味的な PowerPoint SmartArt でもなく、編集可能な図形
+  グループである。
 
-## Git and upstream safety
+## Git と Upstream の安全
 
-- `origin` is `RYUKOU-OKUMURA/genoffice-cursor`; `upstream` is the fetch-only
-  official `genspark-ai/genoffice` repository.
-- Keep `main` as a clean fast-forward mirror of `upstream/main`. Put all fork
-  work on `cursor` or focused `feature/*` branches created from `cursor`.
-- Merge upstream snapshots into `cursor`; resolve conflicts there. Do not add
-  fork commits to `main`, rebase published branch history, force-push, or push
-  to the official repository.
-- Before every push, verify the branch and `git remote -v`. Keep the installed
-  hook synchronized with `tools/git-hooks/pre-push-fork-safety`; install it on
-  each new checkout as documented in `docs/cursor/OPERATIONS.md`.
-- Preserve unrelated user changes in a dirty worktree. Commit small, focused
-  changes with imperative English subjects.
+- `origin` は `RYUKOU-OKUMURA/genoffice-cursor`、`upstream` は fetch 専用の
+  公式 `genspark-ai/genoffice` リポジトリである。
+- `main` は `upstream/main` のクリーンな fast-forward ミラーとして保つ。
+  フォーク作業はすべて `cursor`、または `cursor` から作成した焦点を絞った
+  `feature/*` ブランチに置く。
+- Upstream のスナップショットは `cursor` にマージし、衝突はその場で解消
+  する。フォークのコミットを `main` に追加したり、公開済みブランチ履歴を
+  rebase したり、force-push したり、公式リポジトリへ push したりしない。
+- 毎回の push 前に、ブランチと `git remote -v` を確認する。インストール済み
+  フックを `tools/git-hooks/pre-push-fork-safety` と同期させ、新しい
+  checkout ごとに `docs/cursor/OPERATIONS.md` の手順でインストールする。
+- 汚れた worktree にある無関係なユーザー変更は保持する。小さく焦点を絞った
+  変更を、命令形の英語件名でコミットする。
 
-## Installed app and local-data safety
+## インストール済みアプリとローカルデータの安全
 
-- Source changes do not update the official installed `GenOffice.app`.
-- During MVP development, run the fork unpackaged with:
+- ソースの変更は、公式にインストールされた `GenOffice.app` を更新しない。
+- MVP 開発中は、フォークをパッケージせず次で実行する:
 
   ```bash
   GENOFFICE_USER_DATA="$PWD/.task/user-data" npm run dev
   ```
 
-- Do not package or install the fork until Phase 7 and ADR 0001's separate
-  product name, bundle ID, and explicit user-data path are implemented.
-- Never use the official GenOffice update feed in a personal build.
-- Test with generated fixtures or copies. Never open and save the same PPTX
-  concurrently in the official and personal apps.
-- Never commit credentials, SDK stores, local skills, user documents, logs
-  containing document content, or `.task/user-data` state.
+- Phase 7 と ADR 0001 の別製品名、bundle ID、明示的な user-data パスが実装
+  されるまで、フォークをパッケージまたはインストールしない。
+- 個人ビルドで公式 GenOffice の更新フィードを使わない。
+- 生成したフィクスチャまたはコピーでテストする。同じ PPTX を公式アプリと
+  個人アプリで同時に開いて保存しない。
+- 資格情報、SDK ストア、ローカルスキル、ユーザー文書、文書内容を含むログ、
+  `.task/user-data` の状態をコミットしない。
 
-## Change discipline
+## 変更の規律
 
-- Work in the phase order in `docs/cursor/IMPLEMENTATION_PLAN.md`. Do not widen
-  the tool surface until the preceding exit gate passes.
-- Keep Cursor integration additive and isolated so upstream engine updates can
-  merge cleanly. Extract shared command services instead of duplicating or
-  bypassing existing editor mutations.
-- Do not edit generated output or dependency trees such as `apps/*/out`,
-  `release`, or `node_modules`. Regenerate them through repository commands
-  only when the task requires it.
-- Use `npm ci` for a clean install. Use `npm install` only for an intentional
-  dependency change, and review the lockfile and license impact.
-- Code, comments, commit messages, and developer docs are English-only;
-  user-facing text belongs in i18n resources.
-- When the user corrects a recurring assumption, update the owning
-  `docs/cursor/` document or an ADR. Update `AGENTS.md` only when the correction
-  should govern future work every time.
-- When subagents are available, use them for bounded independent research and
-  require an independent final review before committing any non-trivial change.
+- `docs/cursor/IMPLEMENTATION_PLAN.md` のフェーズ順で作業する。直前の exit
+  gate が通るまで、ツール面を広げない。
+- Cursor 統合は加算的かつ隔離して保ち、Upstream のエンジン更新をきれいに
+  マージできるようにする。既存のエディタ変更を複製または迂回するのではなく、
+  共有コマンドサービスを抽出する。
+- `apps/*/out`、`release`、`node_modules` などの生成物や依存ツリーを編集
+  しない。タスクが必要とするときだけ、リポジトリのコマンドで再生成する。
+- クリーンインストールには `npm ci` を使う。意図した依存変更のときだけ
+  `npm install` を使い、lockfile とライセンス影響を確認する。
+- コード、コメント、コミットメッセージ、開発者向けドキュメントは英語のみ。
+  ユーザー向け文言は i18n リソースに置く。
+- ユーザーが繰り返しの前提を訂正したときは、所管の `docs/cursor/`
+  ドキュメントまたは ADR を更新する。その訂正が今後の作業を毎回律すべき
+  ときだけ `AGENTS.md` を更新する。
+- サブエージェントが使えるときは、範囲を限った独立調査に使い、自明でない
+  変更をコミットする前に独立した最終レビューを必須とする。
 
-## Verification and handoff
+## 検証と引き渡し
 
-- While iterating, run the smallest relevant workspace typecheck and tests.
-- Before a code commit, run formatting, lint, affected workspace typechecks,
-  and affected tests. Run the full gates required by `CONTRIBUTING.md` at phase
-  exits or when shared dependencies/build paths change.
-- OOXML open/save changes require a round-trip test proving intended changes
-  and preservation of untouched content.
-- Documentation-only changes require `npm run format:check`, valid local links,
-  and consistency with current code, ADRs, and the implementation plan.
-- Treat warnings as evidence to report even when the command exits zero. In the
-  final handoff, list commands run, results, and any intentionally skipped
-  checks.
+- 反復中は、関連する最小のワークスペース typecheck とテストを実行する。
+- コードコミット前に、フォーマット、lint、影響を受けるワークスペースの
+  typecheck、影響を受けるテストを実行する。フェーズ出口、または共有依存 /
+  ビルド経路が変わるときは、`CONTRIBUTING.md` が求める全ゲートを実行する。
+- OOXML の open/save 変更には、意図した変更と未変更コンテンツの保持を証明
+  するラウンドトリップテストが必要である。
+- ドキュメントのみの変更には、`npm run format:check`、有効なローカルリンク、
+  現行コード・ADR・実装計画との整合が必要である。
+- コマンドがゼロ終了しても、警告は報告すべき証跡として扱う。最終引き渡し
+  では、実行したコマンド、結果、意図的に省略した検査を列挙する。
 
-## Code review rules
+## コードレビュー規則
 
-Treat these as blockers:
+次をブロッカーとして扱う:
 
-- A Cursor acceptance path silently calls Genspark.
-- The worker gains arbitrary shell, filesystem, ambient MCP, network-tool, or
-  subagent capability.
-- A renderer receives a credential or can mutate a deck outside typed preload
-  and main-process validation.
-- A run can retarget after a tab/deck change or leave history batching open.
-- A personal package can replace the official app, share its user data, or use
-  its update feed.
-- An agent mutation bypasses existing command, undo, render, or save behavior.
+- Cursor 受け入れ経路が黙って Genspark を呼ぶ。
+- ワーカーが任意のシェル、ファイルシステム、環境 MCP、ネットワークツール、
+  またはサブエージェント能力を得る。
+- レンダラーが資格情報を受け取る、または型付き preload と main プロセス
+  検証の外でデッキを変更できる。
+- タブ / デッキ変更後に run が対象を付け替えられる、または履歴バッチが
+  開いたままになる。
+- 個人パッケージが公式アプリを置き換えられる、ユーザーデータを共有する、
+  またはその更新フィードを使う。
+- エージェントの変更が、既存のコマンド、undo、描画、または保存の振る舞いを
+  迂回する。

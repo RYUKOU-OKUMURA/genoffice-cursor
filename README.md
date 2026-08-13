@@ -1,6 +1,6 @@
 # [GenOffice](https://genoffice.ai/)
 
-**The world's first full-featured open-source AI Office suite.**
+**世界初の、フル機能を備えたオープンソース AI Office スイート。**
 
 [![License: Apache-2.0](https://img.shields.io/github/license/genspark-ai/genoffice)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/genspark-ai/genoffice)](https://github.com/genspark-ai/genoffice/releases/latest)
@@ -10,124 +10,137 @@
 
 [Website](https://genoffice.ai/) · [Download](https://github.com/genspark-ai/genoffice/releases/latest) · [Demo](https://www.youtube.com/watch?v=B2pLdMX95v4)
 
-GenOffice is a free, open-source alternative to Microsoft Office for macOS,
-Windows, and Linux, built around AI editing as a first-class workflow rather
-than a bolted-on chat box. It opens and saves the real Microsoft Office
-formats — Word (`.docx`), Excel (`.xlsx`), PowerPoint (`.pptx`) — and edits
-PDF and Markdown too: a word processor, spreadsheet, presentation editor,
-PDF editor, and Markdown editor as six Electron apps sharing one engine
-layer.
+GenOffice は、macOS、Windows、Linux 向けの無料オープンソースの Microsoft
+Office 代替です。後付けのチャット欄ではなく、AI 編集を第一級のワークフロー
+として組み込んでいます。本物の Microsoft Office 形式 — Word (`.docx`)、
+Excel (`.xlsx`)、PowerPoint (`.pptx`) — を開いて保存でき、PDF と Markdown
+も編集できます。ワープロ、表計算、プレゼンテーション編集、PDF 編集、
+Markdown 編集という 6 つの Electron アプリが、1 つのエンジン層を共有して
+います。
 
 [![Meet GenOffice — the world's first full-featured open-source AI Office (video)](https://img.youtube.com/vi/B2pLdMX95v4/maxresdefault.jpg)](https://www.youtube.com/watch?v=B2pLdMX95v4)
 
-[Watch the demo video on YouTube](https://www.youtube.com/watch?v=B2pLdMX95v4)
+[デモ動画を YouTube で見る](https://www.youtube.com/watch?v=B2pLdMX95v4)
 
-## Features
+## 機能
 
-- **Real PDF editing** — retype text and edit images in the page itself, original fonts preserved.
-- **Microsoft Word–compatible, byte-preserving `.docx` editing** — only what you touched changes; Word never notices.
-- **Word-faithful pagination** — page breaks land where Word puts them.
-- **Excel-compatible spreadsheets** — in-house engine with a Rust `.xlsx` sidecar, own charts, pivot tables, slicers.
-- **PowerPoint-compatible presentations** — in-house `.pptx` engine with masters, layouts, smart guides, non-destructive crop.
-- **Markdown to Word, fully local** — the same OOXML engine, no Pandoc, no cloud.
-- **AI that edits documents** — block-level edits with snapshots and diffs, document-aware agents.
-- **Agent tools built in** — web/image search, image generation, media analysis.
-- **Light / dark / system themes.**
-- **macOS, Windows, Linux.**
-- **Free & open-source (Apache-2.0).**
+- **本物の PDF 編集** — ページそのもののテキストを打ち直し、画像を編集。
+  元のフォントは保持されます。
+- **Microsoft Word 互換で、バイト保持の `.docx` 編集** — 触った箇所だけが
+  変わります。Word 側は違いに気づきません。
+- **Word に忠実なページネーション** — 改ページ位置は Word と同じ場所に
+  来ます。
+- **Excel 互換のスプレッドシート** — 自前エンジンと Rust の `.xlsx`
+  sidecar、自前のグラフ、ピボットテーブル、スライサー。
+- **PowerPoint 互換のプレゼンテーション** — 自前の `.pptx` エンジン。
+  マスター、レイアウト、スマートガイド、非破壊クロップ。
+- **Markdown から Word へ、完全ローカル** — 同じ OOXML エンジン。Pandoc
+  もクラウドも使いません。
+- **文書を編集する AI** — スナップショットと diff 付きのブロック単位編集、
+  文書を理解するエージェント。
+- **組み込みのエージェントツール** — Web / 画像検索、画像生成、メディア
+  解析。
+- **ライト / ダーク / システムテーマ。**
+- **macOS、Windows、Linux。**
+- **無料かつオープンソース（Apache-2.0）。**
 
-## Download
+## ダウンロード
 
-| Platform                             | Requirements                                          | Download                                                                                                                         |
-| ------------------------------------ | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| **macOS** — Apple Silicon (arm64)    | macOS 11+                                             | [GenOffice-0.6.101-arm64.dmg](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/GenOffice-0.6.101-arm64.dmg)   |
-| **macOS** — Intel (x64)              | macOS 11+                                             | [GenOffice-0.6.101.dmg](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/GenOffice-0.6.101.dmg)               |
-| **Windows** (x64)                    | Windows 10+                                           | [GenOfficeSetup-v0.6.101.exe](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/GenOfficeSetup-v0.6.101.exe)   |
-| **Linux** — Debian / Ubuntu          | x86_64, glibc 2.34+ (Ubuntu 22.04 or newer)           | [genoffice_0.6.101_amd64.deb](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/genoffice_0.6.101_amd64.deb)   |
-| **Linux** — Fedora / RHEL / openSUSE | x86_64, glibc 2.34+ (Fedora 35+, RHEL 9+, Leap 15.6+) | [genoffice-0.6.101.x86_64.rpm](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/genoffice-0.6.101.x86_64.rpm) |
-| **Linux** — other distributions      | x86_64, glibc 2.34+, FUSE 2                           | [GenOffice-0.6.101.AppImage](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/GenOffice-0.6.101.AppImage)     |
+| プラットフォーム                           | 要件                                                   | ダウンロード                                                                                                                     |
+| ------------------------------------------ | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| **macOS** — Apple Silicon (arm64)          | macOS 11+                                              | [GenOffice-0.6.101-arm64.dmg](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/GenOffice-0.6.101-arm64.dmg)   |
+| **macOS** — Intel (x64)                    | macOS 11+                                              | [GenOffice-0.6.101.dmg](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/GenOffice-0.6.101.dmg)               |
+| **Windows** (x64)                          | Windows 10+                                            | [GenOfficeSetup-v0.6.101.exe](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/GenOfficeSetup-v0.6.101.exe)   |
+| **Linux** — Debian / Ubuntu                | x86_64、glibc 2.34+（Ubuntu 22.04 以降）               | [genoffice_0.6.101_amd64.deb](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/genoffice_0.6.101_amd64.deb)   |
+| **Linux** — Fedora / RHEL / openSUSE       | x86_64、glibc 2.34+（Fedora 35+、RHEL 9+、Leap 15.6+） | [genoffice-0.6.101.x86_64.rpm](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/genoffice-0.6.101.x86_64.rpm) |
+| **Linux** — その他のディストリビューション | x86_64、glibc 2.34+、FUSE 2                            | [GenOffice-0.6.101.AppImage](https://github.com/genspark-ai/genoffice/releases/download/v0.6.101/GenOffice-0.6.101.AppImage)     |
 
-All builds come from `main`; the macOS and Windows installers are signed.
-Older versions are on the [Releases](https://github.com/genspark-ai/genoffice/releases) page.
+すべてのビルドは `main` から作られます。macOS と Windows のインストーラは
+署名済みです。古いバージョンは
+[Releases](https://github.com/genspark-ai/genoffice/releases) ページにあり
+ます。
 
-### Installing on Linux
+### Linux へのインストール
 
-The deb installs with apt — it pulls in the dependencies and adds GenOffice
-to the applications menu:
+deb は apt でインストールします。依存関係を取り込み、アプリケーション
+メニューに GenOffice を追加します:
 
 ```bash
 sudo apt install ./genoffice_0.6.101_amd64.deb
 ```
 
-On Fedora / RHEL-family / openSUSE, install the rpm instead:
+Fedora / RHEL 系 / openSUSE では、代わりに rpm をインストールします:
 
 ```bash
 sudo dnf install ./genoffice-0.6.101.x86_64.rpm     # Fedora / RHEL family
 sudo zypper install ./genoffice-0.6.101.x86_64.rpm  # openSUSE
 ```
 
-The AppImage instead runs in place: install the FUSE 2 runtime
-(`sudo apt install libfuse2`; on Ubuntu 24.04 the package is `libfuse2t64`),
-make the file executable, then run it:
+AppImage は、その場で実行します。FUSE 2 ランタイムをインストールし
+（`sudo apt install libfuse2`。Ubuntu 24.04 ではパッケージ名は
+`libfuse2t64`）、ファイルを実行可能にしてから起動します:
 
 ```bash
 chmod +x GenOffice-0.6.101.AppImage
 ./GenOffice-0.6.101.AppImage
 ```
 
-## Apps
+## アプリ
 
-| App             | Product                | What it is                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| --------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apps/docs`     | **GenOffice Docs**     | `.docx` word processor. Byte-preserving round trip: only dirty paragraphs are regenerated (paragraph patch), everything else in the original file is kept byte-for-byte, so opening and saving never breaks layout in Word. Paginated view whose line metrics reproduce the original document's layout, tracked changes, comments, styles, equations, ink.                                                                                                                                                                                                      |
-| `apps/sheets`   | **GenOffice Sheets**   | `.xlsx` spreadsheet. UI built on the open-source [Univer](https://github.com/dream-num/univer) core (Apache-2.0) with a large layer of in-house extensions; `.xlsx` import/export runs through an in-house Rust sidecar (calamine + IronCalc), charts are rendered in-house (Konva), plus pivot tables, slicers, conditional formatting, and formula tracing.                                                                                                                                                                                                   |
-| `apps/slides`   | **GenOffice Slides**   | `.pptx` presentations. In-house `.pptx` parse/render/edit engine with masters, charts, cropping, ink, and text shaping (HarfBuzz metrics).                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| `apps/pdf`      | **GenOffice PDF**      | `.pdf` viewer/editor on [pdf.js](https://github.com/mozilla/pdf.js) (Apache-2.0) + [pdf-lib](https://github.com/Hopding/pdf-lib) (MIT): annotations, forms, outlines, stamps, signatures, page operations, and printing support. True text editing — paragraph selection with in-block reflow, alignment restoration, original-font preservation — and content-stream image insert/edit, all rewriting page content streams through [PDFium](https://pdfium.googlesource.com/pdfium/) wasm (BSD-3-Clause) with subset-embedded fonts — no cover-up annotations. |
-| `apps/markdown` | **GenOffice Markdown** | `.md` / `.markdown` editor: Tiptap block editor over plain Markdown files — headings, lists, tables, images, code blocks — saved back as plain Markdown, hosted in shell tabs.                                                                                                                                                                                                                                                                                                                                                                                  |
-| `apps/shell`    | **GenOffice**          | The suite shell: home screen, tabbed hosting of the five editors, light/dark/system theme, auto-update.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| アプリ          | 製品                   | 内容                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/docs`     | **GenOffice Docs**     | `.docx` ワープロ。バイト保持のラウンドトリップ: 汚れた段落だけを再生成し（paragraph patch）、元ファイルのそれ以外はバイト単位で保持するため、開いて保存しても Word のレイアウトを壊しません。元文書のレイアウトを再現する行メトリクス付きのページネーション表示、変更履歴、コメント、スタイル、数式、インク。                                                                                                                                                                                                                                  |
+| `apps/sheets`   | **GenOffice Sheets**   | `.xlsx` スプレッドシート。UI はオープンソースの [Univer](https://github.com/dream-num/univer) コア（Apache-2.0）の上に、自前の拡張を大きく載せています。`.xlsx` の import/export は自前の Rust sidecar（calamine + IronCalc）経由、グラフは自前描画（Konva）。加えてピボットテーブル、スライサー、条件付き書式、数式トレース。                                                                                                                                                                                                                 |
+| `apps/slides`   | **GenOffice Slides**   | `.pptx` プレゼンテーション。自前の `.pptx` 解析 / 描画 / 編集エンジン。マスター、グラフ、クロップ、インク、テキストシェーピング（HarfBuzz メトリクス）。                                                                                                                                                                                                                                                                                                                                                                                       |
+| `apps/pdf`      | **GenOffice PDF**      | [pdf.js](https://github.com/mozilla/pdf.js)（Apache-2.0）+ [pdf-lib](https://github.com/Hopding/pdf-lib)（MIT）上の `.pdf` ビューア / エディタ: 注釈、フォーム、アウトライン、スタンプ、署名、ページ操作、印刷。本物のテキスト編集 — 段落選択とブロック内リフロー、配置の復元、元フォントの保持 — と、コンテンツストリームへの画像挿入 / 編集。いずれも [PDFium](https://pdfium.googlesource.com/pdfium/) wasm（BSD-3-Clause）経由でページのコンテンツストリームを書き直し、サブセット埋め込みフォントを使います。覆い隠し注釈ではありません。 |
+| `apps/markdown` | **GenOffice Markdown** | `.md` / `.markdown` エディタ: プレーンな Markdown ファイル上の Tiptap ブロックエディタ — 見出し、リスト、表、画像、コードブロック — をプレーン Markdown として保存し、シェルのタブでホストします。                                                                                                                                                                                                                                                                                                                                             |
+| `apps/shell`    | **GenOffice**          | スイートのシェル: ホーム画面、5 つのエディタのタブホスト、ライト / ダーク / システムテーマ、自動更新。                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 
-Every app embeds the same AI panel: block-granular AI editing with version
-snapshots and diffs in docs, a tool-calling agent over workbook/slide/PDF
-state in the others.
+すべてのアプリに同じ AI パネルが埋め込まれています。Docs ではバージョン
+スナップショットと diff 付きのブロック粒度の AI 編集、それ以外では
+ワークブック / スライド / PDF 状態に対するツール呼び出しエージェントです。
 
-The whole suite ships light / dark / system UI themes built on shared design
-tokens (`packages/ui`), with a CI guard that keeps chrome colors on the token
-system. Document surfaces stay light in dark mode — Word-style dark chrome
-around white paper — so files render and export identically in both themes.
+スイート全体は、共有デザイントークン（`packages/ui`）の上に構築した
+ライト / ダーク / システム UI テーマを同梱し、CI ガードが chrome 色を
+トークン体系に留めます。ドキュメント面はダークモードでもライトのまま
+です — Word 流の、白い紙を囲む暗い chrome — そのため、ファイルの描画と
+書き出しは両テーマで同一になります。
 
-**AI backend (Genspark).** The apps sign in to a Genspark account through a
-device-code flow; no model API key is entered or stored by the user. Model
-calls route through the Genspark proxy (Claude, GPT, and Gemini families).
-The same account also unlocks the Genspark ("gsk") tool endpoints the agents
-build on — web and image search, image generation and editing,
-image/audio/video analysis, and audio transcription — all reachable through
-`packages/ai-search` for anyone extending the agent layer.
+**AI バックエンド（Genspark）。** アプリはデバイスコードフローで
+Genspark アカウントにサインインします。ユーザーがモデル API キーを入力
+したり保存したりすることはありません。モデル呼び出しは Genspark
+プロキシ経由です（Claude、GPT、Gemini 系列）。同じアカウントで、
+エージェントが土台にする Genspark（"gsk"）ツールエンドポイント —
+Web / 画像検索、画像生成と編集、画像 / 音声 / 動画解析、音声文字起こし —
+も使えます。エージェント層を拡張する人は、すべて
+`packages/ai-search` 経由で到達できます。
 
-## Engine packages
+## エンジンパッケージ
 
-All pure TypeScript, no Electron dependency, unit-tested (except the UI kit):
+すべて純粋な TypeScript で、Electron 依存はなく、単体テスト済みです
+（UI キットを除く）:
 
-- `packages/docx-engine` — docx parsing → block tree (with `docxIndex`
-  anchors and passthrough), OOXML fragment generation, byte-level paragraph
-  patching.
-- `packages/pptx-engine` / `packages/pptx-render` — pptx model and rendering.
-- `packages/file-parse` — text extraction for AI attachments (office formats,
-  text formats).
-- `packages/agent-core` — the AI agent loop and skill composition shared by
-  every app.
-- `packages/ai-provider` — provider abstraction and streaming for the model
-  backends.
-- `packages/ai-search` — Genspark auth + web/image search tools.
-- `packages/i18n`, `packages/ui`, `packages/project-store`,
-  `packages/electron-utils` — shared i18n core, React UI kit, recent-files
-  store, and Electron main-process helpers.
+- `packages/docx-engine` — docx 解析 → ブロックツリー（`docxIndex`
+  アンカーとパススルー付き）、OOXML フラグメント生成、バイト単位の段落
+  パッチ。
+- `packages/pptx-engine` / `packages/pptx-render` — pptx モデルと描画。
+- `packages/file-parse` — AI 添付向けのテキスト抽出（Office 形式、
+  テキスト形式）。
+- `packages/agent-core` — 全アプリが共有する AI エージェントループと
+  スキル合成。
+- `packages/ai-provider` — モデルバックエンド向けのプロバイダ抽象と
+  ストリーミング。
+- `packages/ai-search` — Genspark 認証 + Web / 画像検索ツール。
+- `packages/i18n`、`packages/ui`、`packages/project-store`、
+  `packages/electron-utils` — 共有 i18n コア、React UI キット、最近使った
+  ファイルのストア、Electron main プロセス用ヘルパー。
 
-## Development
+## 開発
 
 ```bash
 npm install
 npm run fixtures     # generate test .docx fixtures
-npm test             # engine + app unit tests (docs/sheets/slides need no display)
+npm run test         # engine + app unit tests (docs/sheets/slides need no display)
 npm run typecheck    # tsc --noEmit across every workspace
 npm run dev          # all five editors + shell against Vite dev servers
 npm run dev:docs     # a single app (same pattern works per workspace)
@@ -136,14 +149,15 @@ npm run dist:win     # package Windows nsis installer
 npm run dist:linux   # package Linux AppImage + deb + rpm
 ```
 
-The sheets app additionally needs a Rust toolchain for its xlsx sidecar
-(`cargo` on PATH); `npm run build -w @genoffice/sheets` compiles it
-automatically.
+Sheets アプリは、xlsx sidecar 用に Rust ツールチェーン（PATH 上の
+`cargo`）が追加で必要です。`npm run build -w @genoffice/sheets` が自動で
+コンパイルします。
 
-Local UI/e2e driver scripts (Playwright + Electron, for local acceptance, not
-committed by default) live in [`scripts/drivers/`](scripts/drivers/README.md).
+ローカル UI / e2e ドライバスクリプト（Playwright + Electron。ローカル
+受け入れ用で、既定ではコミットしません）は
+[`scripts/drivers/`](scripts/drivers/README.md) にあります。
 
-## Architecture notes (docx round trip)
+## アーキテクチャメモ（docx ラウンドトリップ）
 
 ```
 open docx ─► archive original by hash (never touched)
@@ -155,74 +169,78 @@ save      ─► dirty blocks → OOXML fragments (referencing existing styles o
           ─► repack zip; all other entries copied byte-for-byte
 ```
 
-The same philosophy holds in sheets and slides: the original file is the
-source of truth, edits are applied as narrow patches, and everything the
-editor didn't touch survives the round trip untouched.
+同じ考え方は Sheets と Slides にも当てはまります。元ファイルが情報源
+（source of truth）であり、編集は狭いパッチとして適用され、エディタが
+触らなかったものはラウンドトリップ後も未変更のまま残ります。
 
 ## FAQ
 
-**Is GenOffice free?**
-Yes. GenOffice is free and open-source under the Apache-2.0 license — no
-trial, no paid tier for the apps themselves.
+**GenOffice は無料ですか？**
+はい。GenOffice は Apache-2.0 ライセンスの無料オープンソースです。アプリ
+本体に試用期間も有料プランもありません。
 
-**Can GenOffice open Microsoft Word, Excel, and PowerPoint files?**
-Yes. GenOffice opens and saves native `.docx`, `.xlsx`, and `.pptx` files.
-Saving is byte-preserving: parts of the file you didn't touch are written
-back byte-for-byte, so documents keep working in Microsoft Office.
+**GenOffice は Microsoft Word、Excel、PowerPoint のファイルを開けますか？**
+はい。GenOffice はネイティブの `.docx`、`.xlsx`、`.pptx` を開いて保存
+します。保存はバイト保持です。触っていない部分はバイト単位で書き戻す
+ため、文書は Microsoft Office でも動き続けます。
 
-**Does GenOffice work offline?**
-Document editing is fully local — files never leave your machine to be
-opened, edited, or saved. The AI features (agents, search, image tools) sign
-in to a Genspark account and need a network connection.
+**GenOffice はオフラインで動きますか？**
+文書編集は完全にローカルです。開く、編集する、保存するためにファイルが
+マシンの外へ出ることはありません。AI 機能（エージェント、検索、画像
+ツール）は Genspark アカウントにサインインし、ネットワーク接続が必要
+です。
 
-**Can GenOffice edit PDF files?**
-Yes — real PDF text and image editing that rewrites the page content stream
-with the original fonts preserved, not cover-up annotations.
+**GenOffice は PDF ファイルを編集できますか？**
+はい。本物の PDF テキスト / 画像編集で、元のフォントを保持したまま
+ページのコンテンツストリームを書き直します。覆い隠し注釈ではありません。
 
-## Security
+## セキュリティ
 
-See [SECURITY.md](SECURITY.md) for the process security posture (renderer
-sandboxing, IPC validation, external-link gating) and the threat models for
-AI-generated content.
+プロセスのセキュリティ姿勢（レンダラーのサンドボックス、IPC 検証、
+外部リンクのゲート）と、AI 生成コンテンツの脅威モデルは
+[SECURITY.md](SECURITY.md) を参照してください。
 
-## Acknowledgements
+## 謝辞
 
-GenOffice would not be possible without these open-source projects:
+GenOffice は、次のオープンソースプロジェクトなしには成り立ちません:
 
-- [Electron](https://www.electronjs.org/) — the desktop runtime for every app.
-- [Univer](https://github.com/dream-num/univer) (Apache-2.0) — the spreadsheet
-  UI core that Sheets extends.
-- [PDFium](https://pdfium.googlesource.com/pdfium/) (BSD-3-Clause, bundled via
-  [@embedpdf/pdfium](https://github.com/embedpdf/embed-pdf-viewer)) — the
-  content-stream engine behind true PDF text and image editing.
-- [pdf.js](https://github.com/mozilla/pdf.js) (Apache-2.0) and
-  [pdf-lib](https://github.com/Hopding/pdf-lib) (MIT) — PDF rendering and
-  document assembly.
-- [Tiptap](https://tiptap.dev/) / [ProseMirror](https://prosemirror.net/) —
-  the block editors in Docs and Markdown.
-- [Konva](https://konvajs.org/) — canvas rendering for Slides and Sheets
-  charts.
-- [HarfBuzz](https://github.com/harfbuzz/harfbuzz) (wasm) — text-shaping
-  metrics for complex scripts.
-- [calamine](https://github.com/tafia/calamine) and
-  [IronCalc](https://github.com/ironcalc/IronCalc) — the read and calc layers
-  of the Rust xlsx sidecar.
-- Liberation, Carlito, Caladea, and Noto CJK fonts (OFL/Apache-2.0) — bundled
-  document fonts.
+- [Electron](https://www.electronjs.org/) — 全アプリのデスクトップ
+  ランタイム。
+- [Univer](https://github.com/dream-num/univer)（Apache-2.0）— Sheets が
+  拡張するスプレッドシート UI コア。
+- [PDFium](https://pdfium.googlesource.com/pdfium/)（BSD-3-Clause、
+  [@embedpdf/pdfium](https://github.com/embedpdf/embed-pdf-viewer)
+  経由で同梱）— 本物の PDF テキスト / 画像編集の背後にあるコンテンツ
+  ストリームエンジン。
+- [pdf.js](https://github.com/mozilla/pdf.js)（Apache-2.0）と
+  [pdf-lib](https://github.com/Hopding/pdf-lib)（MIT）— PDF 描画と
+  文書組み立て。
+- [Tiptap](https://tiptap.dev/) / [ProseMirror](https://prosemirror.net/)
+  — Docs と Markdown のブロックエディタ。
+- [Konva](https://konvajs.org/) — Slides と Sheets グラフのキャンバス
+  描画。
+- [HarfBuzz](https://github.com/harfbuzz/harfbuzz)（wasm）— 複雑な文字
+  体系向けのテキストシェーピングメトリクス。
+- [calamine](https://github.com/tafia/calamine) と
+  [IronCalc](https://github.com/ironcalc/IronCalc) — Rust xlsx sidecar
+  の読み取り層と計算層。
+- Liberation、Carlito、Caladea、Noto CJK フォント（OFL/Apache-2.0）—
+  同梱の文書フォント。
 
-## Third-party notices
+## サードパーティ通知
 
-`npm run notices` regenerates the bundled third-party license summary
-(`tools/gen-third-party-notices.mjs`); all runtime dependencies are
-MIT/Apache-2.0/BSD-3-Clause/OFL, and the bundled fonts (Liberation, Carlito,
-Caladea, Noto CJK subsets) are OFL/Apache.
+`npm run notices` は、同梱のサードパーティライセンス要約を再生成します
+（`tools/gen-third-party-notices.mjs`）。実行時依存はすべて
+MIT/Apache-2.0/BSD-3-Clause/OFL で、同梱フォント（Liberation、Carlito、
+Caladea、Noto CJK サブセット）は OFL/Apache です。
 
-## License
+## ライセンス
 
-GenOffice is licensed under the [Apache License 2.0](LICENSE), with one
-exception: the `ee/` directory is reserved for future enterprise modules and
-is covered by the [GenOffice Enterprise License](ee/LICENSE).
+GenOffice は [Apache License 2.0](LICENSE) の下でライセンスされます。
+例外が 1 つあります。`ee/` ディレクトリは将来のエンタープライズ
+モジュール用に予約されており、
+[GenOffice Enterprise License](ee/LICENSE) の対象です。
 
-The GenOffice and Genspark names and logos are trademarks of Mainfunc, Inc.
-The Apache-2.0 license does not grant permission to use them (see section 6);
-forks should use their own branding.
+GenOffice と Genspark の名称およびロゴは Mainfunc, Inc. の商標です。
+Apache-2.0 ライセンスはそれらの使用許諾を与えません（第 6 条を参照）。
+フォークは独自のブランディングを使うべきです。
