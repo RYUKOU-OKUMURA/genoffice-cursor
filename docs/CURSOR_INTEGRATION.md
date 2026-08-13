@@ -37,6 +37,62 @@ The MVP is complete when a user can:
 The MVP does not include Sheets, Docs, public distribution, automatic updates,
 or unrestricted shell and filesystem access for the agent.
 
+## Installed app and two-Mac workflow
+
+Both development Macs already have the official GenOffice application
+installed. Committing, pushing, or pulling this fork changes source code only;
+it does not update either installed official application.
+
+### During MVP development
+
+Keep the official application installed and run the fork unpackaged with an
+isolated profile:
+
+```bash
+GENOFFICE_USER_DATA="$PWD/.task/user-data" npm run dev
+```
+
+This separates GenOffice-managed user data and the Electron single-instance
+lock from the installed application. It does not imply that credentials owned
+by an external Cursor installation are stored in the same profile.
+
+Do not install a package produced from the current upstream packaging identity.
+It still uses the `GenOffice` product name and `com.genoffice.app` bundle ID, so
+copying it into `/Applications` could replace the official app and share its
+preferences, recent files, autosaves, AI settings, and projects.
+
+### Personal packaged application
+
+Before the first packaged fork is installed, implement the separate identity
+accepted in [ADR 0001](adr/0001-separate-personal-app-identity.md):
+
+- application name: `GenOffice Cursor.app`
+- bundle identifier: `com.ryukouokumura.genoffice.cursor`
+- explicit packaged user-data directory:
+  `~/Library/Application Support/GenOffice Cursor`
+- no official GenOffice update feed
+
+The official app then continues to receive official updates independently. A
+personal package does not change merely because `cursor` was pushed: until a
+private update mechanism is deliberately added, rebuild and reinstall the
+personal app on each Mac to deploy a new revision.
+
+### Synchronization and data safety
+
+- Synchronize source through `origin/cursor`; clone or pull and run the fork on
+  each Mac independently.
+- Keep Cursor authentication and application settings local to each Mac and
+  out of Git. Separate profiles do not automatically share recent files,
+  autosaves, projects, settings, or skills; migrate only selected settings or
+  trusted skills, never the entire user-data directory.
+- Build for each Mac's architecture. Do not assume one local DMG runs on a Mac
+  with a different architecture.
+- Choose the preferred default application for PPTX files in macOS after both
+  apps are installed.
+- Never open and save the same PPTX concurrently in the official and personal
+  apps. Use document copies for MVP validation to avoid last-writer-wins data
+  loss or file corruption.
+
 ## Repository layout and branches
 
 - Working copy: `/Users/ryukouokumura/Desktop/boss-workspace/genoffice-remake`

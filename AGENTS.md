@@ -28,6 +28,21 @@ These instructions apply to the entire repository.
   history to resolve upstream conflicts.
 - Make small, focused commits with imperative English subjects.
 
+## Installed app safety
+
+- Both development Macs already have the official GenOffice app installed.
+  Source changes in this fork do not update those installed apps.
+- During the MVP, run the fork unpackaged with
+  `GENOFFICE_USER_DATA="$PWD/.task/user-data" npm run dev` so it does not share
+  user data or a single-instance lock with the official app.
+- Do not package or install the fork with the upstream `GenOffice` product name
+  or `com.genoffice.app` bundle identifier. Before the first personal package,
+  implement the separate identity and explicit user-data path recorded in
+  `docs/adr/0001-separate-personal-app-identity.md`.
+- Never point a personal build at the official GenOffice update feed. A local
+  personal package remains update-disabled unless a separate private update
+  mechanism is explicitly designed later.
+
 ## Cursor integration boundaries
 
 - Prefer a new, isolated Node worker workspace package for the Cursor SDK host
