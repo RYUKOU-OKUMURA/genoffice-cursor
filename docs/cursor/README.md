@@ -1,6 +1,6 @@
 ---
 status: active
-last-reviewed: 2026-08-13
+last-reviewed: 2026-08-14
 ---
 
 # GenOffice Cursor documentation
@@ -75,7 +75,9 @@ decision in an ADR.
 - From-scratch creation uses `compose_slide` templates, not model-placed
   primitives, Genspark HTML, or SDK subagents. See
   [ADR 0003](../adr/0003-quality-first-native-slide-composition.md).
-- The MVP lands one `input_cycle_outputs` slide. About 30 native pages is a
+- The MVP lands one slide per run from `title_kicker`, `input_cycle_outputs`,
+  `insight_table`, and `bar_comparison`. Tables and bar charts stay inside
+  compose. Figures must come from the user prompt. About 30 native pages is a
   post-MVP horizon in [PRODUCT.md](PRODUCT.md), not an MVP acceptance target.
 - Skills are explicitly selected, instruction-only, and cannot expand tools.
 - Existing Genspark behavior may remain available for upstream compatibility,

@@ -1,6 +1,6 @@
 ---
 status: ready
-last-reviewed: 2026-08-13
+last-reviewed: 2026-08-14
 ---
 
 # Slides Cursor implementation plan
@@ -164,44 +164,49 @@ Suggested commit slices:
 
 ## Phase 4: composed native slide
 
-Goal: generate one simple, visually clear, editable slide from natural
-language without a Genspark generation endpoint. See ADR 0003.
+Goal: generate one simple, visually clear, editable slide per run from the
+closed MVP catalog, without a Genspark generation endpoint. See ADR 0003.
 
 Planned work:
 
-- [ ] Extract shared services for element insertion and native SmartArt-style
-      diagrams while preserving existing IPC behavior.
-- [ ] Add `compose-command-service.ts` that lands the `input_cycle_outputs`
-      template from a structured spec (title, subtitle, input, four cycle
-      labels, stacked outputs). GenOffice owns geometry, grouping, and palette.
+- [ ] Extract shared services for element insertion, native tables, native bar
+      charts, and SmartArt-style diagrams while preserving existing IPC
+      behavior. Cursor must not register `add_table` or `add_chart` as custom
+      tools.
+- [ ] Add `compose-command-service.ts` that lands `title_kicker`,
+      `input_cycle_outputs`, `insight_table`, and `bar_comparison` from
+      structured specs. GenOffice owns geometry, grouping, and palette.
 - [ ] Implement `compose_slide` as the from-scratch creation tool, with
       `add_text_box`, `add_shape`, and `add_diagram` limited to bounded tweaks
       and strict geometry, color, text, preset, node-count, and per-run call
       limits.
+- [ ] Gate `insight_table` and `bar_comparison` so every numeric cell or series
+      value appears in the initiating user prompt; reject sample or invented
+      figures before mutation.
 - [ ] Provide the worker a compact Slides-specific system instruction that
-      names the compose layout id and content fields, requires inspecting tool
+      names the four layout ids and content fields, requires inspecting tool
       results, and does not teach free canvas coordinates for whole-slide
       creation.
 - [ ] Add deterministic layout checks for missing regions, out-of-bounds
-      elements, unsupported shape geometry, empty required text, and excessive
-      overlap.
+      elements, unsupported shape geometry, empty required text, oversized
+      tables/charts, and excessive overlap.
 - [ ] Send fresh rendered state after every accepted operation without changing
       the run's pinned deck.
-- [ ] Add a non-Genspark prompt/evaluation fixture for one `input_cycle_outputs`
-      workflow slide.
+- [ ] Add non-Genspark prompt/evaluation fixtures for each layout id, including
+      a missing-figure rejection case.
 - [ ] Save As, reopen, inspect native editability, and compare rendered output
       according to `TEST_PLAN.md`.
 
-Exit gate: A-02, A-03, A-05, A-08, and A-10 pass on a blank deck. The result
-contains native grouped regions for header, input, cycle, and outputs, stays
-within the canvas, remains editable, and uses no HTML/cloud slide-generation
-path. The tool-name sequence for A-03 includes `compose_slide`.
+Exit gate: A-02, A-03, A-03b, A-03c, A-03d, A-03e, A-05, A-08, and A-10 pass
+on a blank deck. Each accepted layout is native, in-canvas, and editable, and
+uses no HTML/cloud slide-generation path. The tool-name sequence includes
+`compose_slide`.
 
 Suggested commit slices:
 
-1. `extract slides insertion command services`
-2. `add cursor compose slide template`
-3. `test cursor compose pptx round trip`
+1. `extract slides insertion table and chart services`
+2. `add cursor compose slide templates`
+3. `test cursor compose figure gate and pptx round trip`
 
 ## Phase 5: trusted skill
 
@@ -226,9 +231,9 @@ Planned work:
       package.
 - [ ] Prove a skill cannot add built-in tools, ambient MCP servers, network
       access, or subagents.
-- [ ] Adapt one actual slide-generation skill to the MVP tool vocabulary
-      (`compose_slide` plus bounded edits) and document any unsupported
-      behavior. The skill must remain instruction-only.
+- [ ] Adapt one actual slide-generation skill to the four MVP layout ids and
+      bounded edits; document any unsupported behavior. The skill must remain
+      instruction-only and must not invent figures.
 - [ ] Keep the managed skill catalog, enabled state, and SDK state outside Git.
 
 Exit gate: A-09 and A-10 pass, and disabling the skill returns to the base
@@ -309,6 +314,7 @@ this list is only dependency order after the composed-slide MVP:
 | Worker events can target a different deck after tab changes     | Phase 2        | Do not enable mutation until pinned-session tests pass                     |
 | One-run history batching breaks on cancellation/crash           | Phase 3        | Do not add creation tools until all terminal paths pass                    |
 | Native compose template is unreadable or not editable           | Phase 4        | Improve the template service; do not fall back to Genspark, primitives, or subagents |
+| Table/chart compose fails round-trip or the figure gate misfires | Phase 4       | Fix native insert and prompt normalization; do not add sample figures or Cursor `add_table`/`add_chart` |
 | Existing personal skill needs unavailable IDE tools             | Phase 5        | Adapt it explicitly or mark it incompatible; do not grant new capabilities |
 | Upstream merges create recurring conflicts in giant handlers    | Every sync     | Continue extracting thin adapters; keep Cursor files additive              |
 

@@ -1,6 +1,6 @@
 ---
 status: target
-last-reviewed: 2026-08-13
+last-reviewed: 2026-08-14
 ---
 
 # Cursor Slides architecture
@@ -117,7 +117,9 @@ apps/slides/src/main/commands/
 ├── deck-read-service.ts         # bounded outline and slide inspection
 ├── element-command-service.ts   # text/shape operations shared with IPC
 ├── diagram-command-service.ts   # bounded SmartArt/native diagram operation
-└── compose-command-service.ts   # one layout family from a structured spec
+├── table-command-service.ts     # native table insert used by compose only
+├── chart-command-service.ts     # native bar chart insert used by compose only
+└── compose-command-service.ts   # closed layout catalog from a structured spec
 
 apps/slides/src/shared/
 └── cursor-ipc.ts                # renderer IPC types, never credentials
@@ -157,13 +159,16 @@ raw PPTX bytes, credentials, Electron objects, or callable values.
 | `add_text_box`     | Yes      | Existing slide; finite in-canvas geometry; capped text; not whole-slide create |
 | `add_shape`        | Yes      | Small preset allowlist; finite in-canvas geometry; validated colors/text      |
 | `add_diagram`      | Yes      | Supported layout enum; 2-8 bounded text nodes; finite optional geometry       |
-| `compose_slide`    | Yes      | Layout id `input_cycle_outputs`; bounded title/subtitle/region labels; no coordinates |
+| `compose_slide`    | Yes      | Layout ids `title_kicker`, `input_cycle_outputs`, `insight_table`, `bar_comparison`; no coordinates; table ≤6×5; one bar chart ≤8 cats × 3 series; numeric values must match the user prompt |
 
 <!-- markdownlint-enable MD013 -->
 
 From-scratch creation uses `compose_slide`. Primitive add/edit tools are for
 bounded tweaks after a slide exists. GenOffice templates own geometry,
-grouping, and palette. See [ADR 0003](../adr/0003-quality-first-native-slide-composition.md).
+grouping, and palette. `insight_table` and `bar_comparison` call existing
+table/chart command services internally. Do not register `add_table` or
+`add_chart` as Cursor custom tools. See
+[ADR 0003](../adr/0003-quality-first-native-slide-composition.md).
 
 The worker may perform lightweight schema validation for quick feedback. The
 main registry repeats validation, enforces session ownership and call budgets,
@@ -172,7 +177,8 @@ and is the only authority that may mutate a deck.
 Do not expose the existing unrestricted-looking tool collection wholesale.
 In particular, the current `generate_deck` and `regenerate_slide` tools call
 Genspark cloud generation, while `execute_slide_script` has a separate
-security model that is unnecessary for the first Cursor slice.
+security model that is unnecessary for the first Cursor slice. Do not expose
+the renderer `add_table` / `add_chart` tools on the Cursor allowlist.
 
 ## Deferred multi-slide tools
 

@@ -63,13 +63,16 @@ The initial allowlist is limited to:
 - `add_text_box` and `add_shape` with a small preset allowlist, for bounded
   tweaks on an existing slide
 - `add_diagram` with supported, bounded SmartArt-style shape-group layouts
-- `compose_slide` with layout id `input_cycle_outputs` as the from-scratch
-  creation path
+- `compose_slide` with layout ids `title_kicker`, `input_cycle_outputs`,
+  `insight_table`, and `bar_comparison` as the from-scratch creation path.
+  Tables and bar charts are inserted only inside those templates. Numeric
+  values must appear in the initiating user prompt.
 
 Do not expose or silently fall back to:
 
 - `generate_deck`, `regenerate_slide`, `slides:cloud-page-generate`, GSK
   search/image/media tools, or the `cloudpptx:` import path;
+- `add_table` or `add_chart` as Cursor custom tools;
 - `execute_slide_script`, arbitrary HTML/OOXML, arbitrary geometry names,
   arbitrary URLs, arbitrary save paths, shell, filesystem, web, ambient MCP,
   SDK `agents`, `"task"`, or other subagent capability; or
@@ -108,9 +111,9 @@ services and must not weaken that existing path's tests.
   cancellation/crash cleanup, argument bounds, command parity, and history.
 - Preserve existing Slides history, layout, generation, regeneration, picture,
   and undo-routing tests even though Genspark is not the Cursor dependency.
-- Creation acceptance requires blank deck -> `compose_slide` native
-  `input_cycle_outputs` slide -> one-step undo/redo -> Save As -> reopen ->
-  structural and visual verification.
+- Creation acceptance requires blank deck -> `compose_slide` for each MVP
+  layout id -> figure-gate rejection without user numbers -> one-step
+  undo/redo -> Save As -> reopen -> structural and visual verification.
 - Run focused checks while iterating:
 
   ```bash

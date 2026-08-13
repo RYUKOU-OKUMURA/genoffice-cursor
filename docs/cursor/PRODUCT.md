@@ -1,6 +1,6 @@
 ---
 status: active
-last-reviewed: 2026-08-13
+last-reviewed: 2026-08-14
 ---
 
 # Product direction
@@ -55,9 +55,9 @@ the user's filesystem.
 ### Useful vertical slice before breadth
 
 Slides must pass creation, editing, undo, and PPTX round-trip acceptance before
-Cursor work begins in Sheets or Docs. The first created slide is one composed
-native layout family, not an arbitrary deck and not a bitmap. Photorealistic
-image generation is not part of the MVP.
+Cursor work begins in Sheets or Docs. The MVP creates one composed slide per
+run from a closed layout catalog, not an arbitrary deck and not a bitmap.
+Photorealistic image generation is not part of the MVP.
 
 ### Quality over parallel generation
 
@@ -82,8 +82,13 @@ In scope:
 - Streaming one agent run at a time for the active Slides document
 - Reading deck structure and an individual slide
 - Editing text through the normal Slides command path
-- Composing one supported native layout family (`input_cycle_outputs`) plus
-  bounded text/shape/diagram edits on an existing slide
+- Composing one slide per run from the closed MVP catalog:
+  `title_kicker`, `input_cycle_outputs`, `insight_table`, and `bar_comparison`
+- Native tables and bar charts only inside those compose templates, using the
+  existing Slides table/chart commands
+- Numeric table cells and chart values taken only from the initiating user
+  prompt; invented or sample figures are rejected
+- Bounded text/shape/diagram edits on an existing slide
 - One run collapsing to one normal undo step
 - Saving and reopening a native PPTX
 - Loading one explicitly selected and compatible slide skill
@@ -98,6 +103,9 @@ Out of scope:
 - Cloud-agent mode for document editing
 - Model-parallel mutation of the same deck
 - Multi-slide deck generation as an MVP acceptance target
+- Line, pie, combo, or other non-bar chart types
+- Sample, illustrative, or model-invented figures presented as data
+- Exposing `add_table` or `add_chart` as Cursor custom tools
 - Background autonomous editing or multi-document batch operations
 - Public binaries, public updates, team administration, or billing UI
 - Pixel-perfect matching of a screenshot, or arbitrary-genre deck generation

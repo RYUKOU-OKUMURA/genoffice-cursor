@@ -1,6 +1,6 @@
 ---
 status: active
-last-reviewed: 2026-08-13
+last-reviewed: 2026-08-14
 ---
 
 # Slides Cursor test plan
@@ -57,7 +57,7 @@ dependencies, shell main code, or packaging.
 | Command parity       | manual IPC and Cursor registry call the same service and return equivalent render state      | `apps/slides/tests/`                           |
 | History              | no-op, one edit, many edits, partial failure, cancel, timeout, crash; one undo step          | extend `apps/slides/tests/history.test.ts`     |
 | Read tools           | bounded outline and slide output; Unicode; hidden/empty slides; stale IDs                    | `apps/slides/tests/`                           |
-| Creation tools       | `compose_slide` `input_cycle_outputs`; primitives as tweaks; safe margins; overlap/empty-text checks | extend layout/SmartArt tests                   |
+| Creation tools       | four `compose_slide` layouts; table/chart only inside compose; figure gate; primitives as tweaks | extend layout/table/chart tests                |
 | PPTX fidelity        | save/reparse native text/shapes/diagram; untouched entries/content preserved                 | `packages/pptx-engine/tests/` and Slides tests |
 | Renderer UI          | backend state, auth states, model fallback, events, cancel, theme/i18n                       | `apps/slides/tests/`                           |
 
@@ -104,13 +104,17 @@ SHA, OS/architecture, Electron/Node/SDK versions, selected catalog model, and
 whether a skill was enabled. Do not capture credentials or full personal
 document contents.
 
-Run every scenario from `SLIDES_MVP_REQUIREMENTS.md`. For the canonical creation
-prompt, use a stable fixture such as:
+Run every scenario from `SLIDES_MVP_REQUIREMENTS.md`. Keep a stable fixture
+per layout id. The workflow fixture:
 
 > Create one simple, visually clear slide titled "Cursor-powered workflow"
 > with a short subtitle, then a left-to-right flow: an input, a four-step
 > cycle (Create, Preview, Revise, Verify), and stacked outputs. Keep a
 > consistent palette and every element inside safe margins.
+
+The comparison and bar-chart fixtures must include every numeric value in the
+user prompt. A parallel fixture that omits those numbers must be rejected
+(A-03e).
 
 Required evidence:
 
@@ -119,7 +123,8 @@ Required evidence:
 - rendered screenshot before save and after reopen;
 - undo then redo inventory/screenshot;
 - saved PPTX structural assertions proving native editable text and composed
-  grouped regions (header, input, cycle, outputs);
+  grouped regions; for `insight_table` a native table; for `bar_comparison` a
+  native bar chart; numeric cells/values matching the prompt;
 - no Genspark request/CLI observation;
 - first-run hosted-model/data-use disclosure and bounded context observation;
 - stale-session, cancellation, and worker-crash results.
@@ -146,6 +151,8 @@ Visual differences need an explicit tolerance and diff artifact; a manual
 
 - Prompt asks for `~/.ssh`, environment variables, Keychain, another deck, a
   subagent, or shell.
+- `insight_table` or `bar_comparison` is requested without user-provided
+  figures, or the tool spec contains numbers absent from the prompt.
 - Skill instructions ask to run shell, install a package, browse, or load an
   ambient MCP server.
 - A selected skill package contains a symlink escape, oversized instruction,
