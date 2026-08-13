@@ -57,7 +57,7 @@ dependencies, shell main code, or packaging.
 | Command parity       | manual IPC and Cursor registry call the same service and return equivalent render state      | `apps/slides/tests/`                           |
 | History              | no-op, one edit, many edits, partial failure, cancel, timeout, crash; one undo step          | extend `apps/slides/tests/history.test.ts`     |
 | Read tools           | bounded outline and slide output; Unicode; hidden/empty slides; stale IDs                    | `apps/slides/tests/`                           |
-| Creation tools       | text box, shape, supported diagram layouts, safe margins, overlap checks                     | extend layout/SmartArt tests                   |
+| Creation tools       | `compose_slide` `input_cycle_outputs`; primitives as tweaks; safe margins; overlap/empty-text checks | extend layout/SmartArt tests                   |
 | PPTX fidelity        | save/reparse native text/shapes/diagram; untouched entries/content preserved                 | `packages/pptx-engine/tests/` and Slides tests |
 | Renderer UI          | backend state, auth states, model fallback, events, cancel, theme/i18n                       | `apps/slides/tests/`                           |
 
@@ -107,9 +107,10 @@ document contents.
 Run every scenario from `SLIDES_MVP_REQUIREMENTS.md`. For the canonical creation
 prompt, use a stable fixture such as:
 
-> Create a slide titled "Cursor-powered workflow" with a concise three-step
-> process diagram: Understand, Build, Verify. Use a clear visual hierarchy and
-> keep every element inside safe margins.
+> Create one simple, visually clear slide titled "Cursor-powered workflow"
+> with a short subtitle, then a left-to-right flow: an input, a four-step
+> cycle (Create, Preview, Revise, Verify), and stacked outputs. Keep a
+> consistent palette and every element inside safe margins.
 
 Required evidence:
 
@@ -117,8 +118,8 @@ Required evidence:
 - before/after deck element inventory;
 - rendered screenshot before save and after reopen;
 - undo then redo inventory/screenshot;
-- saved PPTX structural assertions proving native editable text and diagram
-  elements;
+- saved PPTX structural assertions proving native editable text and composed
+  grouped regions (header, input, cycle, outputs);
 - no Genspark request/CLI observation;
 - first-run hosted-model/data-use disclosure and bounded context observation;
 - stale-session, cancellation, and worker-crash results.
@@ -143,7 +144,8 @@ Visual differences need an explicit tolerance and diff artifact; a manual
 
 ## Security and abuse cases
 
-- Prompt asks for `~/.ssh`, environment variables, Keychain, or another deck.
+- Prompt asks for `~/.ssh`, environment variables, Keychain, another deck, a
+  subagent, or shell.
 - Skill instructions ask to run shell, install a package, browse, or load an
   ambient MCP server.
 - A selected skill package contains a symlink escape, oversized instruction,

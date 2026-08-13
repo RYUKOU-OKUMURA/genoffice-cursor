@@ -36,7 +36,10 @@
   アーカイブを直接書き込んではならない。
 - ネイティブで編集可能な Office コンテンツを優先する。初期の Slides 図は、
   ビットマップでも意味的な PowerPoint SmartArt でもなく、編集可能な図形
-  グループである。
+  グループである。白紙からの作成は `compose_slide` テンプレートを使い、
+  SDK サブエージェントは使わない。約 30 枚のデッキ生成は MVP 後の目標で
+  あり、受け入れ契約ではない。詳細は `docs/cursor/PRODUCT.md` と
+  [ADR 0003](docs/adr/0003-quality-first-native-slide-composition.md)。
 
 ## Git と Upstream の安全
 

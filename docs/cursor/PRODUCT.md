@@ -17,7 +17,9 @@ The target experience is:
 1. Open GenOffice Cursor and start a blank presentation or open a PPTX.
 2. Sign in to Cursor inside the app.
 3. Select a model exposed to that Cursor account.
-4. Ask in natural language for a slide or a bounded edit.
+4. Ask in natural language for a slide or a bounded edit. From-scratch
+   creation should yield one simple but visually clear native slide, not a
+   pile of ungrouped boxes.
 5. Optionally apply an explicitly trusted slide-generation skill.
 6. Inspect, undo, save, and reopen the result as a normal PPTX.
 
@@ -53,9 +55,17 @@ the user's filesystem.
 ### Useful vertical slice before breadth
 
 Slides must pass creation, editing, undo, and PPTX round-trip acceptance before
-Cursor work begins in Sheets or Docs. The first diagram can be built from
-native shapes or existing SmartArt composition; photorealistic image
-generation is not part of the MVP.
+Cursor work begins in Sheets or Docs. The first created slide is one composed
+native layout family, not an arbitrary deck and not a bitmap. Photorealistic
+image generation is not part of the MVP.
+
+### Quality over parallel generation
+
+Readable native slides beat faster, inconsistent ones. The model chooses
+content and a layout id; GenOffice templates place grouped shapes. Skills may
+stabilize tone and structure, but they cannot add tools or own coordinates.
+SDK subagents stay disabled even for review or outline assist: those jobs are
+later sequential runs. See [ADR 0003](../adr/0003-quality-first-native-slide-composition.md).
 
 ### Personal operation, upstream-friendly maintenance
 
@@ -72,7 +82,8 @@ In scope:
 - Streaming one agent run at a time for the active Slides document
 - Reading deck structure and an individual slide
 - Editing text through the normal Slides command path
-- Adding text, native shapes, and one supported native diagram layout
+- Composing one supported native layout family (`input_cycle_outputs`) plus
+  bounded text/shape/diagram edits on an existing slide
 - One run collapsing to one normal undo step
 - Saving and reopening a native PPTX
 - Loading one explicitly selected and compatible slide skill
@@ -82,16 +93,40 @@ Out of scope:
 
 - Sheets, Docs, PDF, and Markdown Cursor tools
 - Genspark replacement for web search, image search, or media generation
-- Arbitrary shell, code-edit, filesystem, MCP, or subagent capabilities
+- Arbitrary shell, code-edit, filesystem, MCP, or subagent capabilities,
+  including Cursor SDK `task` / `agents` even for review or outline assist
 - Cloud-agent mode for document editing
+- Model-parallel mutation of the same deck
+- Multi-slide deck generation as an MVP acceptance target
 - Background autonomous editing or multi-document batch operations
 - Public binaries, public updates, team administration, or billing UI
-- Pixel-perfect arbitrary deck generation across every presentation genre
+- Pixel-perfect matching of a screenshot, or arbitrary-genre deck generation
+
+## Product horizon
+
+These outcomes are intended after the Slides MVP, using the same compose path
+and the same worker allowlist. They are not MVP acceptance:
+
+1. **Short native decks.** An accepted outline lands as 8–12 native slides
+   through a main-owned loop. Cancellation keeps already landed pages.
+2. **Large native decks.** The same loop should complete about 30 pages with
+   windowed deck reads, stable indices for missing pages, and one consistent
+   template theme. Thirty pages of unsupported genres is out of scope.
+3. **Specialist runs.** Review (read, flag, do not silently rewrite) and
+   outline assist (propose structure, land only after acceptance) are separate
+   sequential runs after generation, not nested SDK agents.
+
+Multi-slide work starts only after the MVP composed slide, undo, and PPTX
+round-trip pass. Adding `add_slide` without compose, or raising primitive call
+budgets to fake a 30-page generator, is not that work.
 
 ## Success measures
 
 The MVP is successful when all acceptance scenarios in
 `SLIDES_MVP_REQUIREMENTS.md` pass on an isolated development profile and a
-real PPTX survives the defined round-trip checks. The follow-on daily-use beta
-is successful only after the separately identified `GenOffice Cursor.app`
-runs alongside the official `GenOffice.app` on both development Macs.
+real PPTX survives the defined round-trip checks. Horizon deck generation is
+not part of that bar.
+
+The follow-on daily-use beta is successful only after the separately identified
+`GenOffice Cursor.app` runs alongside the official `GenOffice.app` on both
+development Macs.

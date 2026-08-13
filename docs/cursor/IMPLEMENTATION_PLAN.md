@@ -16,14 +16,15 @@ flowchart LR
     P0["0. Baseline and docs"] --> P1["1. SDK worker spike"]
     P1 --> P2["2. Read-only backend"]
     P2 --> P3["3. Undoable text edit"]
-    P3 --> P4["4. Blank slide + diagram"]
+    P3 --> P4["4. Composed native slide"]
     P4 --> P5["5. Trusted skill"]
     P5 --> P6["6. MVP hardening"]
     P6 --> P7["7. Personal packaged beta"]
 ```
 
 Phases 0-6 define the unpackaged Slides MVP. Phase 7 makes it a daily-use app
-that can coexist with the official installation.
+that can coexist with the official installation. Multi-slide generation is
+post-MVP work after Phase 6, not a numbered phase in this sequence.
 
 ## Phase 0: baseline and source of truth
 
@@ -161,38 +162,46 @@ Suggested commit slices:
 2. `add cursor text edit tool`
 3. `test cursor run history cleanup`
 
-## Phase 4: blank-slide native diagram
+## Phase 4: composed native slide
 
-Goal: generate one useful, editable slide from natural language without a
-Genspark generation endpoint.
+Goal: generate one simple, visually clear, editable slide from natural
+language without a Genspark generation endpoint. See ADR 0003.
 
 Planned work:
 
 - [ ] Extract shared services for element insertion and native SmartArt-style
       diagrams while preserving existing IPC behavior.
-- [ ] Implement `add_text_box`, `add_shape`, and `add_diagram` with strict
-      geometry, color, text, preset, node-count, and per-run call limits.
+- [ ] Add `compose-command-service.ts` that lands the `input_cycle_outputs`
+      template from a structured spec (title, subtitle, input, four cycle
+      labels, stacked outputs). GenOffice owns geometry, grouping, and palette.
+- [ ] Implement `compose_slide` as the from-scratch creation tool, with
+      `add_text_box`, `add_shape`, and `add_diagram` limited to bounded tweaks
+      and strict geometry, color, text, preset, node-count, and per-run call
+      limits.
 - [ ] Provide the worker a compact Slides-specific system instruction that
-      describes canvas coordinates, safe margins, content hierarchy, and the
-      requirement to inspect tool results.
-- [ ] Add deterministic layout checks for out-of-bounds elements, unsupported
-      shape geometry, empty text, and excessive overlap.
+      names the compose layout id and content fields, requires inspecting tool
+      results, and does not teach free canvas coordinates for whole-slide
+      creation.
+- [ ] Add deterministic layout checks for missing regions, out-of-bounds
+      elements, unsupported shape geometry, empty required text, and excessive
+      overlap.
 - [ ] Send fresh rendered state after every accepted operation without changing
       the run's pinned deck.
-- [ ] Add a non-Genspark prompt/evaluation fixture for a title plus three-step
-      process diagram.
+- [ ] Add a non-Genspark prompt/evaluation fixture for one `input_cycle_outputs`
+      workflow slide.
 - [ ] Save As, reopen, inspect native editability, and compare rendered output
       according to `TEST_PLAN.md`.
 
 Exit gate: A-02, A-03, A-05, A-08, and A-10 pass on a blank deck. The result
-contains native elements, stays within the canvas, remains editable, and uses
-no HTML/cloud slide-generation path.
+contains native grouped regions for header, input, cycle, and outputs, stays
+within the canvas, remains editable, and uses no HTML/cloud slide-generation
+path. The tool-name sequence for A-03 includes `compose_slide`.
 
 Suggested commit slices:
 
 1. `extract slides insertion command services`
-2. `add cursor native diagram tools`
-3. `test cursor diagram pptx round trip`
+2. `add cursor compose slide template`
+3. `test cursor compose pptx round trip`
 
 ## Phase 5: trusted skill
 
@@ -217,8 +226,9 @@ Planned work:
       package.
 - [ ] Prove a skill cannot add built-in tools, ambient MCP servers, network
       access, or subagents.
-- [ ] Adapt one actual slide-generation skill to the MVP tool vocabulary and
-      document any unsupported behavior.
+- [ ] Adapt one actual slide-generation skill to the MVP tool vocabulary
+      (`compose_slide` plus bounded edits) and document any unsupported
+      behavior. The skill must remain instruction-only.
 - [ ] Keep the managed skill catalog, enabled state, and SDK state outside Git.
 
 Exit gate: A-09 and A-10 pass, and disabling the skill returns to the base
@@ -273,6 +283,20 @@ Exit gate: both apps run independently, the personal build passes every
 acceptance scenario, and removing it does not affect official GenOffice or its
 data.
 
+## Post-MVP horizon
+
+Do not start this work before Phase 6. Scope lives in [PRODUCT.md](PRODUCT.md);
+this list is only dependency order after the composed-slide MVP:
+
+- [ ] `plan_deck` returns titles, roles, and layout ids with no coordinates.
+- [ ] A main-owned loop lands accepted specs through `compose_slide`, first
+      for 8–12 pages, then toward about 30, with windowed deck reads.
+- [ ] Cancellation keeps landed pages; missing pages keep stable indices.
+- [ ] Sequential review and outline-assist runs reuse the same allowlist. Do
+      not enable SDK `agents` or `"task"`.
+- [ ] Optional compose concurrency, if added, is deterministic template
+      landing, not model-parallel writers on one session.
+
 ## Risk register and decision gates
 
 <!-- markdownlint-disable MD013 -->
@@ -284,7 +308,7 @@ data.
 | Existing renderer tool logic cannot be shared safely            | Phase 2-3      | Extract main command services before adding more tools                     |
 | Worker events can target a different deck after tab changes     | Phase 2        | Do not enable mutation until pinned-session tests pass                     |
 | One-run history batching breaks on cancellation/crash           | Phase 3        | Do not add creation tools until all terminal paths pass                    |
-| Native primitives produce consistently poor diagrams            | Phase 4        | Improve a bounded diagram service; do not fall back to Genspark silently   |
+| Native compose template is unreadable or not editable           | Phase 4        | Improve the template service; do not fall back to Genspark, primitives, or subagents |
 | Existing personal skill needs unavailable IDE tools             | Phase 5        | Adapt it explicitly or mark it incompatible; do not grant new capabilities |
 | Upstream merges create recurring conflicts in giant handlers    | Every sync     | Continue extracting thin adapters; keep Cursor files additive              |
 

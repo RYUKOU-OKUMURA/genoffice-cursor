@@ -27,7 +27,8 @@ instructions. Read them explicitly when a task starts at the repository root.
   0002 and communicates through the versioned broker protocol.
 - Local mode is mandatory for document tools. Configure only `tools: ["mcp"]`,
   the private `local.customTools` map, and the enabled sandbox. Do not provide
-  `mcpServers` or `local.settingSources`; reapply restrictions on resume.
+  `mcpServers`, `local.settingSources`, or `agents`; do not include `"task"`
+  in `tools`. Reapply restrictions on resume.
 - Treat SDK sandbox and auto-review as defense in depth. The authorization
   boundary is the Electron main broker with runtime schemas, limits, run/deck
   capabilities, and a closed tool-name allowlist.
@@ -59,9 +60,11 @@ The initial allowlist is limited to:
 - `get_deck_context`
 - `read_slide`
 - `set_element_text`
-- `add_text_box`
-- `add_shape` with a small preset allowlist
+- `add_text_box` and `add_shape` with a small preset allowlist, for bounded
+  tweaks on an existing slide
 - `add_diagram` with supported, bounded SmartArt-style shape-group layouts
+- `compose_slide` with layout id `input_cycle_outputs` as the from-scratch
+  creation path
 
 Do not expose or silently fall back to:
 
@@ -69,9 +72,13 @@ Do not expose or silently fall back to:
   search/image/media tools, or the `cloudpptx:` import path;
 - `execute_slide_script`, arbitrary HTML/OOXML, arbitrary geometry names,
   arbitrary URLs, arbitrary save paths, shell, filesystem, web, ambient MCP,
-  or subagents; or
+  SDK `agents`, `"task"`, or other subagent capability; or
 - direct archive writes or renderer-only `window.slidesApi` callbacks from the
   worker.
+
+From-scratch creation must call `compose_slide`. Do not assemble a whole slide
+from primitives, and do not compensate for missing templates with subagents.
+See [ADR 0003](../../docs/adr/0003-quality-first-native-slide-composition.md).
 
 The current scratch-build guard in `slides-skill.ts` is Genspark product policy,
 not an engine limitation. Cursor native creation uses separately validated main
@@ -101,8 +108,9 @@ services and must not weaken that existing path's tests.
   cancellation/crash cleanup, argument bounds, command parity, and history.
 - Preserve existing Slides history, layout, generation, regeneration, picture,
   and undo-routing tests even though Genspark is not the Cursor dependency.
-- Creation acceptance requires blank deck -> native text/diagram -> one-step
-  undo/redo -> Save As -> reopen -> structural and visual verification.
+- Creation acceptance requires blank deck -> `compose_slide` native
+  `input_cycle_outputs` slide -> one-step undo/redo -> Save As -> reopen ->
+  structural and visual verification.
 - Run focused checks while iterating:
 
   ```bash

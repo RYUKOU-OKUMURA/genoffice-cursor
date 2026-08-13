@@ -72,9 +72,12 @@ decision in an ADR.
   PPTX import/export.
 - The SDK runs locally in an isolated utility process and receives only
   allowlisted custom tools. See [ADR 0002](../adr/0002-isolate-cursor-sdk-worker.md).
-- The MVP creates diagrams as editable native shape groups through the existing
-  SmartArt-style service. It does not require semantic PowerPoint SmartArt,
-  external image generation, or web search.
+- From-scratch creation uses `compose_slide` templates, not model-placed
+  primitives, Genspark HTML, or SDK subagents. See
+  [ADR 0003](../adr/0003-quality-first-native-slide-composition.md).
+- The MVP lands one `input_cycle_outputs` slide. About 30 native pages is a
+  post-MVP horizon in [PRODUCT.md](PRODUCT.md), not an MVP acceptance target.
+- Skills are explicitly selected, instruction-only, and cannot expand tools.
 - Existing Genspark behavior may remain available for upstream compatibility,
   but the Cursor acceptance path must not require or invoke it.
 - A packaged personal build must use the separate app identity in

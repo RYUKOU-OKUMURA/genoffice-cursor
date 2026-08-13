@@ -116,7 +116,8 @@ apps/slides/src/main/cursor/
 apps/slides/src/main/commands/
 ├── deck-read-service.ts         # bounded outline and slide inspection
 ├── element-command-service.ts   # text/shape operations shared with IPC
-└── diagram-command-service.ts   # bounded SmartArt/native diagram operation
+├── diagram-command-service.ts   # bounded SmartArt/native diagram operation
+└── compose-command-service.ts   # one layout family from a structured spec
 
 apps/slides/src/shared/
 └── cursor-ipc.ts                # renderer IPC types, never credentials
@@ -153,11 +154,16 @@ raw PPTX bytes, credentials, Electron objects, or callable values.
 | `get_deck_context` | No       | Current pinned deck only; capped outline/text and element count               |
 | `read_slide`       | No       | One existing zero-based slide index; capped text/elements                     |
 | `set_element_text` | Yes      | Existing editable text ID; capped paragraphs/runs/characters and style values |
-| `add_text_box`     | Yes      | Existing slide; finite in-canvas geometry; capped text                        |
+| `add_text_box`     | Yes      | Existing slide; finite in-canvas geometry; capped text; not whole-slide create |
 | `add_shape`        | Yes      | Small preset allowlist; finite in-canvas geometry; validated colors/text      |
 | `add_diagram`      | Yes      | Supported layout enum; 2-8 bounded text nodes; finite optional geometry       |
+| `compose_slide`    | Yes      | Layout id `input_cycle_outputs`; bounded title/subtitle/region labels; no coordinates |
 
 <!-- markdownlint-enable MD013 -->
+
+From-scratch creation uses `compose_slide`. Primitive add/edit tools are for
+bounded tweaks after a slide exists. GenOffice templates own geometry,
+grouping, and palette. See [ADR 0003](../adr/0003-quality-first-native-slide-composition.md).
 
 The worker may perform lightweight schema validation for quick feedback. The
 main registry repeats validation, enforces session ownership and call budgets,
@@ -167,6 +173,20 @@ Do not expose the existing unrestricted-looking tool collection wholesale.
 In particular, the current `generate_deck` and `regenerate_slide` tools call
 Genspark cloud generation, while `execute_slide_script` has a separate
 security model that is unnecessary for the first Cursor slice.
+
+## Deferred multi-slide tools
+
+These are not on the MVP allowlist. They describe the horizon in
+[PRODUCT.md](PRODUCT.md) without widening the worker today:
+
+- `plan_deck`: titles, roles, and layout ids only; no coordinates.
+- A main-owned landing loop that calls compose for each accepted spec and
+  guarantees page count. Optional later concurrency is deterministic compose,
+  not several LLMs mutating one session.
+- Windowed `get_deck_context` (outline plus a small page window) before a
+  ~30-page deck would overflow the run.
+- Review and outline-assist remain sequential runs with this same allowlist.
+  Do not add `agents`, `"task"`, or a second mutating owner on the session.
 
 ## Run and history lifecycle
 
@@ -194,7 +214,9 @@ skip interactive approval. The worker must therefore fail closed:
 - Enable `local.sandboxOptions.enabled`.
 - Use `tools: ["mcp"]`, because the SDK exposes custom tools through its MCP
   capability. `tools: []` also disables custom tools and is not the desired
-  configuration. Do not configure any other built-in capability.
+  configuration. Do not configure any other built-in capability. Do not pass
+  `agents` or include `"task"`; the SDK can spawn subagents that inherit custom
+  tools, which this integration forbids.
 - Omit `mcpServers` and `local.settingSources`; register only the private
   `local.customTools` map. The worker spike must prove this offers no ambient
   MCP server or built-in shell, file edit/write, web, or task/subagent tool.
@@ -241,14 +263,17 @@ Instead, GenOffice owns a managed skill catalog below its personal profile:
    inject them as a labeled section of the run's system instructions. Do not
    ask the SDK to discover project or user skills.
 5. Keep `tools: ["mcp"]`, the same private `local.customTools`, no
-   `mcpServers`, and no `local.settingSources` regardless of skill content.
+   `mcpServers`, no `agents`, and no `local.settingSources` regardless of
+   skill content.
 
 A familiar Cursor Editor skill is compatible only if its required files and
 instructions are present and it can complete with the exposed Slides tools.
 Skills that assume IDE file editing, shell commands, browser control, image
 generation, scripts, or unlisted assets need an explicit adapter and are not
 silently granted those capabilities. The first MVP skill should be
-instruction-only after adaptation.
+instruction-only after adaptation. Skills may stabilize tone and which layout
+id to choose; they do not own coordinates or expand capability. Layout
+reproducibility is owned by `compose_slide` templates.
 
 ## Packaging boundary
 
@@ -270,3 +295,5 @@ Before personal packaging:
 
 - [Cursor TypeScript SDK documentation](https://cursor.com/docs/sdk/typescript)
 - [Electron utility process documentation](https://www.electronjs.org/docs/latest/api/utility-process)
+- [ADR 0003](../adr/0003-quality-first-native-slide-composition.md): compose-first
+  creation, no SDK subagents, multi-slide horizon

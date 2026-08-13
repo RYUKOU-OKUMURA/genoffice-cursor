@@ -27,9 +27,9 @@ requirement into multiple files with slightly different wording. Keep
   branch before writing "supports", "uses", "is implemented", or "passes".
 - Keep frontmatter status accurate. Do not mark a plan item complete or an exit
   gate passed without recorded evidence.
-- Preserve the Genspark-independent Slides acceptance requirement and the
-  separate official/personal app identities unless a new user decision and ADR
-  explicitly replace them.
+- Preserve the Genspark-independent Slides acceptance requirement, the
+  quality-first compose path in ADR 0003, and the separate official/personal
+  app identities unless a new user decision and ADR explicitly replace them.
 - When a branch, repository, path, remote, package, command, or SDK behavior
   changes, update every owning operations/reference entry in the same change.
 - Use current official primary documentation for changeable Cursor SDK or

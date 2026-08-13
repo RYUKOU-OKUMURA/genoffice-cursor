@@ -39,7 +39,7 @@ The upstream licenses, security policy, contributor rules, and tests are not
 | Slides renderer/UI          | `apps/slides/AGENTS.md`, `CLAUDE.md`, `packages/ui/src/tokens.css`, relevant Slides component/styles/tests              |
 | Slides main/preload/IPC     | `apps/slides/AGENTS.md`, `CLAUDE.md` build gotchas, shared IPC types, preload, handlers, session state, and IPC tests   |
 | Cursor worker/SDK           | `apps/slides/AGENTS.md`, `docs/cursor/ARCHITECTURE.md`, ADR 0002, official Cursor SDK docs, package lock/license policy |
-| Agent tools                 | `apps/slides/AGENTS.md`, current `slides-skill.ts` as behavior reference, main services, history and layout tests       |
+| Agent tools                 | `apps/slides/AGENTS.md`, ADR 0003, current `slides-skill.ts` as behavior reference, main services, history and layout tests |
 | Undo/session state          | `apps/slides/AGENTS.md`, `apps/slides/src/main/session-state.ts`, Slides history and undo-routing tests                 |
 | PPTX read/write             | Relevant `packages/pptx-engine` code, fixture README, fidelity/round-trip tests, root README's preservation promise     |
 | Shell build or packaging    | `CLAUDE.md`, `apps/shell/electron.vite.config.ts`, `apps/shell/electron-builder.cjs`, ADR 0001, licenses/notices        |
@@ -103,6 +103,8 @@ These describe the current system but do not override fork requirements:
   `Cursor.models.list()` for the current account
 - Skills merely present on disk but not explicitly selected and compatibility
   checked
+- Cursor SDK subagent or `generate_deck` examples as a reason to widen this
+  fork's worker allowlist
 - Generated artifacts in `apps/*/out`, `release`, `.task`, SDK stores, or user
   data directories
 
