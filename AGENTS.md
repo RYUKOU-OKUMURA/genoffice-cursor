@@ -1,71 +1,117 @@
-# GenOffice Cursor Fork Instructions
+# GenOffice Cursor Repository Instructions
 
-These instructions apply to the entire repository.
+These fork-owned instructions apply to the entire repository. Upstream does
+not currently provide an `AGENTS.md`; do not replace this file with upstream
+product documentation during a sync.
 
-## Product goal
+## Start with the source of truth
 
-- This is a personal-use fork. Do not add public distribution, branding, or
-  update-feed work unless explicitly requested.
-- Add Cursor Agent SDK as an optional agent backend for natural-language
-  creation and editing of presentations, spreadsheets, and documents.
-- The first MVP is Slides only. Do not expand the Cursor integration into
-  Sheets or Docs until the Slides acceptance criteria in
-  `docs/cursor/SLIDES_MVP_REQUIREMENTS.md` pass.
-- Keep GenOffice's existing OOXML editors and engines authoritative. The
-  Cursor agent should call narrow editor tools; it is not a replacement for
-  the PPTX, XLSX, or DOCX engines.
-- Start with `docs/cursor/README.md` before changing the agent architecture.
+- Read `docs/cursor/README.md` before planning Cursor integration work, then
+  follow its authority order and `REFERENCE_CATALOG.md` routing.
+- Treat `docs/cursor/SLIDES_MVP_REQUIREMENTS.md` as the user-visible contract,
+  `ARCHITECTURE.md` as the target boundary, `IMPLEMENTATION_PLAN.md` as the
+  dependency order, and `TEST_PLAN.md` as the evidence contract.
+- Target documents describe intended behavior that may not exist yet. Inspect
+  current code and tests before claiming a feature is implemented.
+- Apply the closest nested `AGENTS.md` for specialized work. A session started
+  at the repository root must explicitly read:
+  - `apps/slides/AGENTS.md` before changing Slides or the Cursor agent path.
+  - `docs/cursor/AGENTS.md` before changing `docs/cursor/**` or `docs/adr/**`.
+- Follow `CONTRIBUTING.md` for upstream repository conventions and `CLAUDE.md`
+  for UI theming and Electron build gotchas.
 
-## Git workflow
+## Product scope
 
-- `upstream` is the read-only official `genspark-ai/genoffice` repository.
-- `origin` is the personal `RYUKOU-OKUMURA/genoffice-cursor` fork.
-- Keep `main` as a clean fast-forward mirror of `upstream/main`. Never put
-  custom commits on `main`.
-- Keep personal product work on `cursor`; create `feature/*` branches from
-  `cursor` for non-trivial changes.
-- Merge new `main` snapshots into `cursor`. Do not rewrite published branch
-  history to resolve upstream conflicts.
-- Keep the installed pre-push guard synchronized with
-  `tools/git-hooks/pre-push-fork-safety` on every development checkout.
-- Make small, focused commits with imperative English subjects.
+- This is a private, personal-use fork for the owner's Macs. Do not add public
+  distribution, public branding, or an update service unless explicitly
+  requested.
+- The current MVP is Slides only. Do not implement Cursor tools for Sheets,
+  Docs, PDF, or Markdown until every Slides acceptance scenario passes.
+- The primary path must work with a Cursor account while Genspark is logged
+  out and GSK credentials are absent. Existing upstream Genspark behavior may
+  remain as an optional compatibility path but is not an MVP dependency.
+- GenOffice remains authoritative for document state, rendering, undo/redo,
+  and OOXML import/export. Agents call narrow commands; they never write PPTX,
+  XLSX, or DOCX archives directly.
+- Prefer native, editable Office content. The initial Slides diagram is an
+  editable shape group, not a bitmap and not semantic PowerPoint SmartArt.
 
-## Installed app safety
+## Git and upstream safety
 
-- Both development Macs already have the official GenOffice app installed.
-  Source changes in this fork do not update those installed apps.
-- During the MVP, run the fork unpackaged with
-  `GENOFFICE_USER_DATA="$PWD/.task/user-data" npm run dev` so it does not share
-  user data or a single-instance lock with the official app.
-- Do not package or install the fork with the upstream `GenOffice` product name
-  or `com.genoffice.app` bundle identifier. Before the first personal package,
-  implement the separate identity and explicit user-data path recorded in
-  `docs/adr/0001-separate-personal-app-identity.md`.
-- Never point a personal build at the official GenOffice update feed. A local
-  personal package remains update-disabled unless a separate private update
-  mechanism is explicitly designed later.
+- `origin` is `RYUKOU-OKUMURA/genoffice-cursor`; `upstream` is the fetch-only
+  official `genspark-ai/genoffice` repository.
+- Keep `main` as a clean fast-forward mirror of `upstream/main`. Put all fork
+  work on `cursor` or focused `feature/*` branches created from `cursor`.
+- Merge upstream snapshots into `cursor`; resolve conflicts there. Do not add
+  fork commits to `main`, rebase published branch history, force-push, or push
+  to the official repository.
+- Before every push, verify the branch and `git remote -v`. Keep the installed
+  hook synchronized with `tools/git-hooks/pre-push-fork-safety`; install it on
+  each new checkout as documented in `docs/cursor/OPERATIONS.md`.
+- Preserve unrelated user changes in a dirty worktree. Commit small, focused
+  changes with imperative English subjects.
 
-## Cursor integration boundaries
+## Installed app and local-data safety
 
-- Prefer a new, isolated Node worker workspace package for the Cursor SDK host
-  and thin Electron main-process bridges in the apps that expose editor
-  operations. Do not bundle `@cursor/sdk` directly into an Electron main entry;
-  its platform binary and lazy runtime must remain available to the worker.
-- Expose typed, narrow tools such as text replacement, slide element changes,
-  or bounded cell-range edits. Do not expose arbitrary filesystem or shell
-  execution to model-generated arguments.
-- Validate document identity, ranges, object IDs, paths, and payload sizes in
-  every tool handler. Keep an allowlist and explicit approval gates for
-  sensitive operations even when running locally.
-- Never commit Cursor credentials, Genspark credentials, access tokens, or
-  user documents. Put secrets in the OS credential store or ignored local
-  environment files.
-- Cursor SDK integration requires Node.js 22.13 or newer.
+- Source changes do not update the official installed `GenOffice.app`.
+- During MVP development, run the fork unpackaged with:
 
-## Verification
+  ```bash
+  GENOFFICE_USER_DATA="$PWD/.task/user-data" npm run dev
+  ```
 
-- Follow `CONTRIBUTING.md` for repository-wide requirements.
-- Run focused tests while iterating, then run formatting, lint, typecheck, and
-  the relevant workspace tests before committing.
-- Changes to OOXML open/save behavior require round-trip coverage that proves
-  untouched content is preserved.
+- Do not package or install the fork until Phase 7 and ADR 0001's separate
+  product name, bundle ID, and explicit user-data path are implemented.
+- Never use the official GenOffice update feed in a personal build.
+- Test with generated fixtures or copies. Never open and save the same PPTX
+  concurrently in the official and personal apps.
+- Never commit credentials, SDK stores, local skills, user documents, logs
+  containing document content, or `.task/user-data` state.
+
+## Change discipline
+
+- Work in the phase order in `docs/cursor/IMPLEMENTATION_PLAN.md`. Do not widen
+  the tool surface until the preceding exit gate passes.
+- Keep Cursor integration additive and isolated so upstream engine updates can
+  merge cleanly. Extract shared command services instead of duplicating or
+  bypassing existing editor mutations.
+- Do not edit generated output or dependency trees such as `apps/*/out`,
+  `release`, or `node_modules`. Regenerate them through repository commands
+  only when the task requires it.
+- Use `npm ci` for a clean install. Use `npm install` only for an intentional
+  dependency change, and review the lockfile and license impact.
+- Code, comments, commit messages, and developer docs are English-only;
+  user-facing text belongs in i18n resources.
+- When the user corrects a recurring assumption, update the owning
+  `docs/cursor/` document or an ADR. Update `AGENTS.md` only when the correction
+  should govern future work every time.
+- When subagents are available, use them for bounded independent research and
+  require an independent final review before committing any non-trivial change.
+
+## Verification and handoff
+
+- While iterating, run the smallest relevant workspace typecheck and tests.
+- Before a code commit, run formatting, lint, affected workspace typechecks,
+  and affected tests. Run the full gates required by `CONTRIBUTING.md` at phase
+  exits or when shared dependencies/build paths change.
+- OOXML open/save changes require a round-trip test proving intended changes
+  and preservation of untouched content.
+- Documentation-only changes require `npm run format:check`, valid local links,
+  and consistency with current code, ADRs, and the implementation plan.
+- Treat warnings as evidence to report even when the command exits zero. In the
+  final handoff, list commands run, results, and any intentionally skipped
+  checks.
+
+## Code review rules
+
+Treat these as blockers:
+
+- A Cursor acceptance path silently calls Genspark.
+- The worker gains arbitrary shell, filesystem, ambient MCP, network-tool, or
+  subagent capability.
+- A renderer receives a credential or can mutate a deck outside typed preload
+  and main-process validation.
+- A run can retarget after a tab/deck change or leave history batching open.
+- A personal package can replace the official app, share its user data, or use
+  its update feed.
+- An agent mutation bypasses existing command, undo, render, or save behavior.

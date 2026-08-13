@@ -34,8 +34,8 @@ are background material.
 Use this order when two documents disagree:
 
 1. Applicable licenses and security requirements
-2. Root repository instructions, including `AGENTS.md`, `CONTRIBUTING.md`, and
-   task-relevant `CLAUDE.md` rules
+2. Applicable repository instructions, including root and nested `AGENTS.md`,
+   `CONTRIBUTING.md`, and task-relevant `CLAUDE.md` rules
 3. Accepted architecture decisions in `docs/adr/`
 4. The owning document in this `docs/cursor/` set
 5. Existing compatibility/fidelity tests and current implementation behavior

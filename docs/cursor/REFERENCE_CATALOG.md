@@ -16,6 +16,7 @@ document or moves a subsystem.
 | Source                                     | Why it is required                                                                      |
 | ------------------------------------------ | --------------------------------------------------------------------------------------- |
 | `AGENTS.md`                                | Personal-fork product scope, branches, installed-app safety, and integration boundaries |
+| Closest applicable nested `AGENTS.md`      | Directory-specific implementation or documentation rules                                |
 | `docs/cursor/README.md`                    | Navigation, authority order, and current decisions                                      |
 | Relevant files in `docs/cursor/`           | Requirements, architecture, task order, and verification for the change                 |
 | Accepted `docs/adr/*`                      | Durable decisions that implementation must preserve                                     |
@@ -33,18 +34,19 @@ The upstream licenses, security policy, contributor rules, and tests are not
 
 <!-- markdownlint-disable MD013 -->
 
-| Change                   | Read before editing                                                                                                           |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| Slides renderer/UI       | `CLAUDE.md`, `packages/ui/src/tokens.css`, relevant Slides component/styles/tests                                             |
-| Slides main/preload/IPC  | `CLAUDE.md` build gotchas, `apps/slides/src/shared/ipc.ts`, preload, handler, session-state, and IPC tests                    |
-| Cursor worker/SDK        | `docs/cursor/ARCHITECTURE.md`, ADR 0002, current official Cursor TypeScript SDK docs, package lock/license policy             |
-| Agent tools              | Current `apps/slides/src/renderer/ai/slides-skill.ts` as behavior reference, main handlers/services, history and layout tests |
-| Undo/session state       | `apps/slides/src/main/session-state.ts`, Slides history and undo-routing tests                                                |
-| PPTX read/write          | Relevant `packages/pptx-engine` code, fixture README, fidelity/round-trip tests, root README's preservation promise           |
-| Shell build or packaging | `CLAUDE.md`, `apps/shell/electron.vite.config.ts`, `apps/shell/electron-builder.cjs`, ADR 0001, licenses/notices              |
-| Authentication/secrets   | `SECURITY.md`, current Cursor auth docs, OS/profile storage code, redaction tests                                             |
-| Upstream sync            | `docs/cursor/README.md` branch convention, `CONTRIBUTING.md` mirror model, Git history/diff for the incoming snapshot         |
-| Local setup/two-Mac use  | `docs/cursor/OPERATIONS.md`, ADR 0001, current remotes and app identity code                                                  |
+| Change                      | Read before editing                                                                                                     |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Slides renderer/UI          | `apps/slides/AGENTS.md`, `CLAUDE.md`, `packages/ui/src/tokens.css`, relevant Slides component/styles/tests              |
+| Slides main/preload/IPC     | `apps/slides/AGENTS.md`, `CLAUDE.md` build gotchas, shared IPC types, preload, handlers, session state, and IPC tests   |
+| Cursor worker/SDK           | `apps/slides/AGENTS.md`, `docs/cursor/ARCHITECTURE.md`, ADR 0002, official Cursor SDK docs, package lock/license policy |
+| Agent tools                 | `apps/slides/AGENTS.md`, current `slides-skill.ts` as behavior reference, main services, history and layout tests       |
+| Undo/session state          | `apps/slides/AGENTS.md`, `apps/slides/src/main/session-state.ts`, Slides history and undo-routing tests                 |
+| PPTX read/write             | Relevant `packages/pptx-engine` code, fixture README, fidelity/round-trip tests, root README's preservation promise     |
+| Shell build or packaging    | `CLAUDE.md`, `apps/shell/electron.vite.config.ts`, `apps/shell/electron-builder.cjs`, ADR 0001, licenses/notices        |
+| Authentication/secrets      | `SECURITY.md`, current Cursor auth docs, OS/profile storage code, redaction tests                                       |
+| Upstream sync               | `docs/cursor/README.md` branch convention, `CONTRIBUTING.md` mirror model, Git history/diff for the incoming snapshot   |
+| Local setup/two-Mac use     | `docs/cursor/OPERATIONS.md`, ADR 0001, current remotes and app identity code                                            |
+| Cursor source-of-truth docs | `docs/cursor/AGENTS.md`, this catalog, the owning document, related ADRs, code, and tests                               |
 
 <!-- markdownlint-enable MD013 -->
 
