@@ -100,7 +100,8 @@ Keep the first implementation small and easy to rebase onto upstream:
 1. Add an isolated Node worker package that hosts `@cursor/sdk`; communicate
    with the Electron main process over a narrow IPC or stdio protocol rather
    than bundling the SDK into an Electron main entry.
-2. Add thin Electron main-process bridges for Slides and Sheets.
+2. Add a thin Electron main-process bridge for Slides only. Reuse the proven
+   boundary for Sheets after the Slides MVP passes.
 3. Register allowlisted local custom tools that call existing editor commands.
 4. Add a provider selector and Cursor session/auth status UI.
 5. Load compatible skills through an explicit local skills directory.
