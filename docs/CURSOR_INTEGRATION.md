@@ -55,26 +55,39 @@ Required locally:
 Initial setup:
 
 ```bash
-npm install
+npm ci
 npm run fixtures
 npm run typecheck
 npm test
 ```
 
-Run the complete desktop development environment with `npm run dev`. GenOffice
-can run without Genspark credentials; the future Cursor backend must remain an
-independent provider choice rather than being added inside the OOXML engines.
+Run the complete desktop development environment with isolated local user data:
+
+```bash
+GENOFFICE_USER_DATA="$PWD/.task/user-data" npm run dev
+```
+
+GenOffice can run without Genspark credentials; the future Cursor backend must
+remain an independent provider choice rather than being added inside the OOXML
+engines.
 
 ## Intended implementation boundary
 
 Keep the first implementation small and easy to rebase onto upstream:
 
-1. Add an isolated Cursor SDK host package.
+1. Add an isolated Node worker package that hosts `@cursor/sdk`; communicate
+   with the Electron main process over a narrow IPC or stdio protocol rather
+   than bundling the SDK into an Electron main entry.
 2. Add thin Electron main-process bridges for Slides and Sheets.
 3. Register allowlisted local custom tools that call existing editor commands.
 4. Add a provider selector and Cursor session/auth status UI.
 5. Load compatible skills through an explicit local skills directory.
 6. Add undoable end-to-end creation and editing tests before expanding tools.
+
+The worker boundary is important because the SDK loads a platform package and
+runtime resources dynamically. Development can use the unbundled local worker;
+any future local packaging must keep the worker, `@cursor/sdk`, and its platform
+binary outside `app.asar` (for example with `extraResources` or `asarUnpack`).
 
 Skills written for the Cursor editor may assume IDE-only tools or workspace
 paths. Treat them as portable only when their instructions and dependencies

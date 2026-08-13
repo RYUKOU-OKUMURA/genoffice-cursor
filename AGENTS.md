@@ -27,8 +27,10 @@ These instructions apply to the entire repository.
 
 ## Cursor integration boundaries
 
-- Prefer a new, isolated workspace package for the Cursor SDK host and thin
-  Electron main-process bridges in the apps that expose editor operations.
+- Prefer a new, isolated Node worker workspace package for the Cursor SDK host
+  and thin Electron main-process bridges in the apps that expose editor
+  operations. Do not bundle `@cursor/sdk` directly into an Electron main entry;
+  its platform binary and lazy runtime must remain available to the worker.
 - Expose typed, narrow tools such as text replacement, slide element changes,
   or bounded cell-range edits. Do not expose arbitrary filesystem or shell
   execution to model-generated arguments.
