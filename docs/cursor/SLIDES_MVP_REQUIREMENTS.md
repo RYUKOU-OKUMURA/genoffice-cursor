@@ -155,24 +155,24 @@ last-reviewed: 2026-08-14
 
 <!-- markdownlint-disable MD013 -->
 
-| ID    | Scenario                                                                        | Expected result                                                                              |
-| ----- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| A-01  | Log in to Cursor from a clean isolated profile                                  | Browser flow completes; account and available models appear; no key reaches the renderer     |
-| A-01b | Start the first run from a clean isolated profile                               | Hosted-model/data-use notice appears before deck context is sent                             |
-| A-02  | Run with Genspark logged out and GSK variables unset                            | All remaining scenarios work; no Genspark CLI or slide endpoint is called                    |
+| ID    | Scenario                                                                        | Expected result                                                                                                                                             |
+| ----- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A-01  | Log in to Cursor from a clean isolated profile                                  | Browser flow completes; account and available models appear; no key reaches the renderer                                                                    |
+| A-01b | Start the first run from a clean isolated profile                               | Hosted-model/data-use notice appears before deck context is sent                                                                                            |
+| A-02  | Run with Genspark logged out and GSK variables unset                            | All remaining scenarios work; no Genspark CLI or slide endpoint is called                                                                                   |
 | A-03  | Open a blank presentation and ask for one simple, visually clear workflow slide | `compose_slide` lands `input_cycle_outputs`: title/subtitle, input, four-step cycle, stacked outputs; native grouped shapes; in-canvas; no HTML/bitmap page |
-| A-03b | Ask for a title slide with a kicker                                             | `compose_slide` lands `title_kicker`                                                                 |
-| A-03c | Ask for a comparison slide and include the table numbers in the prompt          | `compose_slide` lands `insight_table` with a native table; every numeric cell matches the prompt     |
-| A-03d | Ask for a bar-chart slide and include the category values in the prompt         | `compose_slide` lands `bar_comparison` with one native bar chart; series values match the prompt     |
-| A-03e | Repeat A-03c or A-03d without supplying figures                                 | The tool is rejected; the deck is unchanged                                                          |
-| A-04  | Ask to revise the title                                                         | The existing text element changes through `set_element_text`                                 |
-| A-05  | Undo after a compose or text-edit run                                           | The entire run reverses as one undo step; redo restores it                                   |
-| A-06  | Cancel midway through a multi-tool run                                          | No further tool is accepted; history remains usable; completed edits are one undoable batch  |
-| A-07  | Switch or close the deck while a run is active                                  | Subsequent tool calls fail as stale and do not touch another deck                            |
-| A-08  | Save As, close, and reopen the generated PPTX                                   | Title, composed regions, native table/chart where used, and editable elements survive        |
-| A-09  | Enable one trusted slide-generation skill and repeat A-03                       | The skill influences the result but receives only the same GenOffice tool allowlist          |
-| A-10  | Supply prompt-injection text asking for shell or arbitrary file access          | The capability is unavailable and no external file or command is touched                     |
-| A-11  | Kill the worker during a run                                                    | The UI reports failure, the document remains editable, and a new run can start after restart |
+| A-03b | Ask for a title slide with a kicker                                             | `compose_slide` lands `title_kicker`                                                                                                                        |
+| A-03c | Ask for a comparison slide and include the table numbers in the prompt          | `compose_slide` lands `insight_table` with a native table; every numeric cell matches the prompt                                                            |
+| A-03d | Ask for a bar-chart slide and include the category values in the prompt         | `compose_slide` lands `bar_comparison` with one native bar chart; series values match the prompt                                                            |
+| A-03e | Repeat A-03c or A-03d without supplying figures                                 | The tool is rejected; the deck is unchanged                                                                                                                 |
+| A-04  | Ask to revise the title                                                         | The existing text element changes through `set_element_text`                                                                                                |
+| A-05  | Undo after a compose or text-edit run                                           | The entire run reverses as one undo step; redo restores it                                                                                                  |
+| A-06  | Cancel midway through a multi-tool run                                          | No further tool is accepted; history remains usable; completed edits are one undoable batch                                                                 |
+| A-07  | Switch or close the deck while a run is active                                  | Subsequent tool calls fail as stale and do not touch another deck                                                                                           |
+| A-08  | Save As, close, and reopen the generated PPTX                                   | Title, composed regions, native table/chart where used, and editable elements survive                                                                       |
+| A-09  | Enable one trusted slide-generation skill and repeat A-03                       | The skill influences the result but receives only the same GenOffice tool allowlist                                                                         |
+| A-10  | Supply prompt-injection text asking for shell or arbitrary file access          | The capability is unavailable and no external file or command is touched                                                                                    |
+| A-11  | Kill the worker during a run                                                    | The UI reports failure, the document remains editable, and a new run can start after restart                                                                |
 
 <!-- markdownlint-enable MD013 -->
 

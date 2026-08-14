@@ -34,19 +34,19 @@ The upstream licenses, security policy, contributor rules, and tests are not
 
 <!-- markdownlint-disable MD013 -->
 
-| Change                      | Read before editing                                                                                                     |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Slides renderer/UI          | `apps/slides/AGENTS.md`, `CLAUDE.md`, `packages/ui/src/tokens.css`, relevant Slides component/styles/tests              |
-| Slides main/preload/IPC     | `apps/slides/AGENTS.md`, `CLAUDE.md` build gotchas, shared IPC types, preload, handlers, session state, and IPC tests   |
-| Cursor worker/SDK           | `apps/slides/AGENTS.md`, `docs/cursor/ARCHITECTURE.md`, ADR 0002, official Cursor SDK docs, package lock/license policy |
+| Change                      | Read before editing                                                                                                         |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Slides renderer/UI          | `apps/slides/AGENTS.md`, `CLAUDE.md`, `packages/ui/src/tokens.css`, relevant Slides component/styles/tests                  |
+| Slides main/preload/IPC     | `apps/slides/AGENTS.md`, `CLAUDE.md` build gotchas, shared IPC types, preload, handlers, session state, and IPC tests       |
+| Cursor worker/SDK           | `apps/slides/AGENTS.md`, `docs/cursor/ARCHITECTURE.md`, ADR 0002, official Cursor SDK docs, package lock/license policy     |
 | Agent tools                 | `apps/slides/AGENTS.md`, ADR 0003, current `slides-skill.ts` as behavior reference, main services, history and layout tests |
-| Undo/session state          | `apps/slides/AGENTS.md`, `apps/slides/src/main/session-state.ts`, Slides history and undo-routing tests                 |
-| PPTX read/write             | Relevant `packages/pptx-engine` code, fixture README, fidelity/round-trip tests, root README's preservation promise     |
-| Shell build or packaging    | `CLAUDE.md`, `apps/shell/electron.vite.config.ts`, `apps/shell/electron-builder.cjs`, ADR 0001, licenses/notices        |
-| Authentication/secrets      | `SECURITY.md`, current Cursor auth docs, OS/profile storage code, redaction tests                                       |
-| Upstream sync               | `docs/cursor/README.md` branch convention, `CONTRIBUTING.md` mirror model, Git history/diff for the incoming snapshot   |
-| Local setup/two-Mac use     | `docs/cursor/OPERATIONS.md`, ADR 0001, current remotes and app identity code                                            |
-| Cursor source-of-truth docs | `docs/cursor/AGENTS.md`, this catalog, the owning document, related ADRs, code, and tests                               |
+| Undo/session state          | `apps/slides/AGENTS.md`, `apps/slides/src/main/session-state.ts`, Slides history and undo-routing tests                     |
+| PPTX read/write             | Relevant `packages/pptx-engine` code, fixture README, fidelity/round-trip tests, root README's preservation promise         |
+| Shell build or packaging    | `CLAUDE.md`, `apps/shell/electron.vite.config.ts`, `apps/shell/electron-builder.cjs`, ADR 0001, licenses/notices            |
+| Authentication/secrets      | `SECURITY.md`, current Cursor auth docs, OS/profile storage code, redaction tests                                           |
+| Upstream sync               | `docs/cursor/README.md` branch convention, `CONTRIBUTING.md` mirror model, Git history/diff for the incoming snapshot       |
+| Local setup/two-Mac use     | `docs/cursor/OPERATIONS.md`, ADR 0001, current remotes and app identity code                                                |
+| Cursor source-of-truth docs | `docs/cursor/AGENTS.md`, this catalog, the owning document, related ADRs, code, and tests                                   |
 
 <!-- markdownlint-enable MD013 -->
 

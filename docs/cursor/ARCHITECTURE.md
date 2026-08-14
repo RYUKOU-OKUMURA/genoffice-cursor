@@ -151,14 +151,14 @@ raw PPTX bytes, credentials, Electron objects, or callable values.
 
 <!-- markdownlint-disable MD013 -->
 
-| Tool               | Mutation | Initial bounds                                                                |
-| ------------------ | -------- | ----------------------------------------------------------------------------- |
-| `get_deck_context` | No       | Current pinned deck only; capped outline/text and element count               |
-| `read_slide`       | No       | One existing zero-based slide index; capped text/elements                     |
-| `set_element_text` | Yes      | Existing editable text ID; capped paragraphs/runs/characters and style values |
-| `add_text_box`     | Yes      | Existing slide; finite in-canvas geometry; capped text; not whole-slide create |
-| `add_shape`        | Yes      | Small preset allowlist; finite in-canvas geometry; validated colors/text      |
-| `add_diagram`      | Yes      | Supported layout enum; 2-8 bounded text nodes; finite optional geometry       |
+| Tool               | Mutation | Initial bounds                                                                                                                                                                               |
+| ------------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `get_deck_context` | No       | Current pinned deck only; capped outline/text and element count                                                                                                                              |
+| `read_slide`       | No       | One existing zero-based slide index; capped text/elements                                                                                                                                    |
+| `set_element_text` | Yes      | Existing editable text ID; capped paragraphs/runs/characters and style values                                                                                                                |
+| `add_text_box`     | Yes      | Existing slide; finite in-canvas geometry; capped text; not whole-slide create                                                                                                               |
+| `add_shape`        | Yes      | Small preset allowlist; finite in-canvas geometry; validated colors/text                                                                                                                     |
+| `add_diagram`      | Yes      | Supported layout enum; 2-8 bounded text nodes; finite optional geometry                                                                                                                      |
 | `compose_slide`    | Yes      | Layout ids `title_kicker`, `input_cycle_outputs`, `insight_table`, `bar_comparison`; no coordinates; table ≤6×5; one bar chart ≤8 cats × 3 series; numeric values must match the user prompt |
 
 <!-- markdownlint-enable MD013 -->

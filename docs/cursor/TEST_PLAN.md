@@ -47,19 +47,19 @@ dependencies, shell main code, or packaging.
 
 <!-- markdownlint-disable MD013 -->
 
-| Area                 | Required cases                                                                               | Intended location                              |
-| -------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| Worker protocol      | version/type validation, request correlation, timeout, duplicate/late messages, cancel, exit | `packages/cursor-agent/tests/`                 |
-| SDK adapter          | mocked login/status/logout, models, streaming, tool callback, cancellation, redaction        | `packages/cursor-agent/tests/`                 |
-| Capability isolation | only private custom tools offered; built-in/ambient capability probes rejected               | worker integration tests + local smoke         |
-| Session pinning      | switch, replace, close, destroyed renderer, forged/stale capability, second run              | `apps/slides/tests/`                           |
-| Argument validation  | indices, IDs, geometry, colors, presets, text/payload/call limits, prototype-shaped input    | `apps/slides/tests/`                           |
-| Command parity       | manual IPC and Cursor registry call the same service and return equivalent render state      | `apps/slides/tests/`                           |
-| History              | no-op, one edit, many edits, partial failure, cancel, timeout, crash; one undo step          | extend `apps/slides/tests/history.test.ts`     |
-| Read tools           | bounded outline and slide output; Unicode; hidden/empty slides; stale IDs                    | `apps/slides/tests/`                           |
+| Area                 | Required cases                                                                                   | Intended location                              |
+| -------------------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| Worker protocol      | version/type validation, request correlation, timeout, duplicate/late messages, cancel, exit     | `packages/cursor-agent/tests/`                 |
+| SDK adapter          | mocked login/status/logout, models, streaming, tool callback, cancellation, redaction            | `packages/cursor-agent/tests/`                 |
+| Capability isolation | only private custom tools offered; built-in/ambient capability probes rejected                   | worker integration tests + local smoke         |
+| Session pinning      | switch, replace, close, destroyed renderer, forged/stale capability, second run                  | `apps/slides/tests/`                           |
+| Argument validation  | indices, IDs, geometry, colors, presets, text/payload/call limits, prototype-shaped input        | `apps/slides/tests/`                           |
+| Command parity       | manual IPC and Cursor registry call the same service and return equivalent render state          | `apps/slides/tests/`                           |
+| History              | no-op, one edit, many edits, partial failure, cancel, timeout, crash; one undo step              | extend `apps/slides/tests/history.test.ts`     |
+| Read tools           | bounded outline and slide output; Unicode; hidden/empty slides; stale IDs                        | `apps/slides/tests/`                           |
 | Creation tools       | four `compose_slide` layouts; table/chart only inside compose; figure gate; primitives as tweaks | extend layout/table/chart tests                |
-| PPTX fidelity        | save/reparse native text/shapes/diagram; untouched entries/content preserved                 | `packages/pptx-engine/tests/` and Slides tests |
-| Renderer UI          | backend state, auth states, model fallback, events, cancel, theme/i18n                       | `apps/slides/tests/`                           |
+| PPTX fidelity        | save/reparse native text/shapes/diagram; untouched entries/content preserved                     | `packages/pptx-engine/tests/` and Slides tests |
+| Renderer UI          | backend state, auth states, model fallback, events, cancel, theme/i18n                           | `apps/slides/tests/`                           |
 
 <!-- markdownlint-enable MD013 -->
 
