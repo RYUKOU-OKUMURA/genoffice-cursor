@@ -1,0 +1,23 @@
+{
+  "name": "@genoffice/cursor-agent",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "private": true,
+  "type": "module",
+  "description": "Versioned parent/worker protocol for the Cursor SDK utility-process worker (no Electron dependency, pure TS)",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  }
+}
