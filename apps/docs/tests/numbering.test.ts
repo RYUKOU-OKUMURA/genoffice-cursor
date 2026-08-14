@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/core'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { parseDocx, saveDocx, type NumberingDef } from '@genoffice/docx-engine'
 import { buildDocx } from '../../../packages/docx-engine/tests/helpers/build-docx'
 import { blocksToPmDoc } from '../src/renderer/editor/convert'
@@ -27,6 +27,10 @@ const DECIMAL_3LVL = def({
 })
 
 const defs = (...list: NumberingDef[]) => new Map(list.map((d) => [d.numId, d]))
+
+afterEach(() => {
+  vi.restoreAllMocks()
+})
 
 describe('formatNumber', () => {
   it('covers Word number formats', () => {
@@ -279,6 +283,12 @@ describe('computeListMarkers', () => {
   })
 
   it('substitutes uncovered symbol bullets with a pinned font + scale and follows the first run size', async () => {
+    // jsdom answers canvas calls whenever the optional `canvas` package is
+    // resolvable (e.g. a user-level install under $HOME/node_modules); its
+    // fallback fonts cover PUA glyphs, which flips the probe to "covered" and
+    // skips substitution. Block the 2d context so the premise below holds on
+    // every machine.
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null)
     const numberingXml =
       '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\r\n' +
       '<w:numbering xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">' +
