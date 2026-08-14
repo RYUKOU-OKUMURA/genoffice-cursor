@@ -36,7 +36,7 @@ Goal: preserve a known-good upstream baseline and make the scope reviewable.
 - [x] Classify required, conditional, reference-only, and out-of-scope docs.
 - [x] Record Slides MVP requirements, architecture, implementation plan, and
       test plan.
-- [ ] Record fresh baseline results for Slides typecheck/tests and repository
+- [x] Record fresh baseline results for Slides typecheck/tests and repository
       checks immediately before implementation begins.
 
 Exit gate: clean `cursor` worktree, personal `origin`, fetch-only `upstream`,
@@ -306,16 +306,16 @@ this list is only dependency order after the composed-slide MVP:
 
 <!-- markdownlint-disable MD013 -->
 
-| Risk                                                            | Earliest proof | Stop condition                                                             |
-| --------------------------------------------------------------- | -------------- | -------------------------------------------------------------------------- |
-| SDK custom tools cannot be isolated from built-in/ambient tools | Phase 1        | Do not connect the SDK to a document; revise the worker policy             |
-| SDK lazy chunks/native helper fail in Electron utility process  | Phase 1        | Choose an unbundled child-process host or revise packaging ADR             |
-| Existing renderer tool logic cannot be shared safely            | Phase 2-3      | Extract main command services before adding more tools                     |
-| Worker events can target a different deck after tab changes     | Phase 2        | Do not enable mutation until pinned-session tests pass                     |
-| One-run history batching breaks on cancellation/crash           | Phase 3        | Do not add creation tools until all terminal paths pass                    |
-| Native compose template is unreadable or not editable           | Phase 4        | Improve the template service; do not fall back to Genspark, primitives, or subagents |
-| Table/chart compose fails round-trip or the figure gate misfires | Phase 4       | Fix native insert and prompt normalization; do not add sample figures or Cursor `add_table`/`add_chart` |
-| Existing personal skill needs unavailable IDE tools             | Phase 5        | Adapt it explicitly or mark it incompatible; do not grant new capabilities |
-| Upstream merges create recurring conflicts in giant handlers    | Every sync     | Continue extracting thin adapters; keep Cursor files additive              |
+| Risk                                                             | Earliest proof | Stop condition                                                                                          |
+| ---------------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
+| SDK custom tools cannot be isolated from built-in/ambient tools  | Phase 1        | Do not connect the SDK to a document; revise the worker policy                                          |
+| SDK lazy chunks/native helper fail in Electron utility process   | Phase 1        | Choose an unbundled child-process host or revise packaging ADR                                          |
+| Existing renderer tool logic cannot be shared safely             | Phase 2-3      | Extract main command services before adding more tools                                                  |
+| Worker events can target a different deck after tab changes      | Phase 2        | Do not enable mutation until pinned-session tests pass                                                  |
+| One-run history batching breaks on cancellation/crash            | Phase 3        | Do not add creation tools until all terminal paths pass                                                 |
+| Native compose template is unreadable or not editable            | Phase 4        | Improve the template service; do not fall back to Genspark, primitives, or subagents                    |
+| Table/chart compose fails round-trip or the figure gate misfires | Phase 4        | Fix native insert and prompt normalization; do not add sample figures or Cursor `add_table`/`add_chart` |
+| Existing personal skill needs unavailable IDE tools              | Phase 5        | Adapt it explicitly or mark it incompatible; do not grant new capabilities                              |
+| Upstream merges create recurring conflicts in giant handlers     | Every sync     | Continue extracting thin adapters; keep Cursor files additive                                           |
 
 <!-- markdownlint-enable MD013 -->
